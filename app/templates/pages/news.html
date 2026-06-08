@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}News & Updates — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('News & Updates', [{'label': 'News'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="row g-4">
+            {% for item in news_items %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
+                <div class="news-card">
+                    <div class="news-card-image">
+                        <img src="{{ url_for('static', filename='uploads/' + item.image_filename) if item.image_filename else url_for('static', filename='images/news-placeholder.jpg') }}"
+                             alt="{{ item.title }}"
+                             onerror="this.src='{{ url_for('static', filename='images/news-placeholder.jpg') }}'">
+                    </div>
+                    <div class="news-card-body">
+                        <div class="news-date">{{ item.published_at.strftime('%b %d, %Y') }}</div>
+                        <h5>{{ item.title }}</h5>
+                        <p>{{ item.summary or item.content[:150] }}...</p>
+                        <a href="{{ url_for('main.news_detail', slug=item.slug) }}" class="read-more">Read More <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center text-secondary">No news articles yet.</div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

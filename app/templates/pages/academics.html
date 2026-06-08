@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Academics — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Academics', [{'label': 'Academics'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="section-header mb-5" data-aos="fade-up">
+            <span class="section-label">Academic Programs</span>
+            <h2>CBSE Curriculum — Nursery to Class XII</h2>
+            <p>Comprehensive education designed to develop well-rounded individuals.</p>
+        </div>
+        <div class="row g-4">
+            {% set programs = [
+                ('Pre-Primary', 'Nursery to UKG', 'Play-based learning with focus on motor skills, language development, and social interaction.', 'bi-emoji-smile'),
+                ('Primary', 'Class I to V', 'Foundation building in core subjects with activity-based learning and creative expression.', 'bi-book'),
+                ('Middle School', 'Class VI to VIII', 'Subject specialization begins with emphasis on analytical thinking and project-based learning.', 'bi-lightbulb'),
+                ('Secondary', 'Class IX to X', 'Board preparation with comprehensive coaching, practical labs, and career orientation.', 'bi-mortarboard'),
+                ('Senior Secondary', 'Class XI to XII', 'Science, Commerce, and Arts streams with expert faculty and competitive exam preparation.', 'bi-graph-up'),
+            ] %}
+            {% for title, grades, desc, icon in programs %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi {{ icon }}"></i></div>
+                    <h5>{{ title }}</h5>
+                    <p class="text-accent fw-semibold mb-2" style="color:var(--accent)">{{ grades }}</p>
+                    <p>{{ desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

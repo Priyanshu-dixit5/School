@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}FAQ — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Frequently Asked Questions', [{'label': 'FAQ'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                {% for category, faqs in faq_categories.items() %}
+                <h4 class="mb-3 mt-4 text-capitalize" data-aos="fade-up">{{ category }}</h4>
+                <div class="accordion" id="faq{{ category }}">
+                    {% for faq in faqs %}
+                    <div class="accordion-item faq-item" data-aos="fade-up">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq{{ faq.id }}">
+                                {{ faq.question }}
+                            </button>
+                        </h2>
+                        <div id="faq{{ faq.id }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}"
+                             data-bs-parent="#faq{{ category }}">
+                            <div class="accordion-body">{{ faq.answer }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-center text-secondary">No FAQs available yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

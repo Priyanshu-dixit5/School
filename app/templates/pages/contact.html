@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Contact Us — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Contact Us', [{'label': 'Contact'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-5" data-aos="fade-right">
+                <h3 class="mb-4">Get In Touch</h3>
+                <p class="text-secondary mb-4">Have questions about admissions, careers, or campus visits? Send us a message and our team will respond promptly.</p>
+                <div class="feature-card mb-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="feature-icon mb-0" style="width:48px;height:48px;font-size:1.2rem"><i class="bi bi-geo-alt"></i></div>
+                        <div><h6 class="mb-1">Address</h6><p class="mb-0 text-secondary">{{ school_address }}</p></div>
+                    </div>
+                </div>
+                <div class="feature-card mb-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="feature-icon mb-0" style="width:48px;height:48px;font-size:1.2rem"><i class="bi bi-telephone"></i></div>
+                        <div><h6 class="mb-1">Phone</h6><p class="mb-0 text-secondary"><a href="tel:{{ school_phone }}" class="text-secondary">{{ school_phone }}</a></p></div>
+                    </div>
+                </div>
+                <div class="feature-card mb-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="feature-icon mb-0" style="width:48px;height:48px;font-size:1.2rem"><i class="bi bi-envelope"></i></div>
+                        <div><h6 class="mb-1">Email</h6><p class="mb-0 text-secondary"><a href="mailto:{{ school_email }}" class="text-secondary">{{ school_email }}</a></p></div>
+                    </div>
+                </div>
+                <div class="feature-card mb-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="feature-icon mb-0" style="width:48px;height:48px;font-size:1.2rem"><i class="bi bi-mortarboard"></i></div>
+                        <div>
+                            <h6 class="mb-1">Apply for Admission</h6>
+                            <p class="mb-0"><a href="{{ url_for('main.apply_online') }}">Submit online application &rarr;</a></p>
+                        </div>
+                    </div>
+                </div>
+                <iframe src="https://maps.google.com/maps?q=Delhi%20India&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        width="100%" height="250" style="border:0;border-radius:18px;" allowfullscreen loading="lazy" title="School location map"></iframe>
+            </div>
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="content-card">
+                    <h3 class="mb-2">Send Us a Message</h3>
+                    <p class="text-secondary mb-4">Select your inquiry type so we can route your message to the right department.</p>
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Please fix the following errors:</strong>
+                        <ul class="mb-0 mt-2">
+                        {% for field, errors in form.errors.items() %}
+                            {% for error in errors %}
+                            <li>{{ form[field].label.text if form[field].label else field }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    <form method="POST" action="{{ url_for('main.contact') }}" novalidate>
+                        {{ form.hidden_tag() }}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">{{ form.name.label }}</label>
+                                {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else ""), placeholder="Your full name") }}
+                                {% for e in form.name.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">{{ form.email.label }}</label>
+                                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""), placeholder="you@email.com") }}
+                                {% for e in form.email.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">{{ form.phone.label }}</label>
+                                {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else ""), placeholder="+91 98765 43210") }}
+                                {% for e in form.phone.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">{{ form.query_type.label }}</label>
+                                {{ form.query_type(class="form-select" + (" is-invalid" if form.query_type.errors else "")) }}
+                                {% for e in form.query_type.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">{{ form.message.label }}</label>
+                                {{ form.message(class="form-control" + (" is-invalid" if form.message.errors else ""), rows=5, placeholder="Write your message here...") }}
+                                {% for e in form.message.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-accent btn-lg"><i class="bi bi-send me-2"></i>Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

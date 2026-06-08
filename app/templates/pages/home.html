@@ -1,0 +1,307 @@
+{% extends 'base.html' %}
+{% block title %}{{ school_name }} — {{ school_tagline }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" id="hero">
+    <div class="hero-carousel-bg">
+        <div class="swiper hero-swiper">
+            <div class="swiper-wrapper">
+                {% if hero_images %}
+                    {% for img in hero_images %}
+                    <div class="swiper-slide">
+                        <img src="{{ url_for('static', filename=img) }}" alt="{{ school_name }} campus" loading="{{ 'eager' if loop.first else 'lazy' }}">
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="swiper-slide">
+                        <img src="{{ url_for('static', filename='images/hero-poster.jpg') }}" alt="{{ school_name }}" loading="eager">
+                    </div>
+                {% endif %}
+            </div>
+            <div class="hero-swiper-prev"><i class="bi bi-chevron-left"></i></div>
+            <div class="hero-swiper-next"><i class="bi bi-chevron-right"></i></div>
+            <div class="swiper-pagination hero-swiper-pagination"></div>
+        </div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="container">
+        <div class="hero-content">
+            <span class="hero-badge" data-aos="fade-down">Welcome to Excellence</span>
+            <h1>Transforming Education for Tomorrow</h1>
+            <p>Empowering Future Leaders Through Excellence in academics, character, and innovation.</p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('main.apply_online') }}" class="btn btn-accent btn-lg">Apply Now</a>
+                <a href="{{ url_for('main.gallery') }}" class="btn btn-outline-light-custom btn-lg">Explore Campus</a>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scroll"><i class="bi bi-chevron-down fs-4"></i></div>
+</section>
+
+<!-- Statistics -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-6 col-lg-3" data-aos="fade-up">
+                <div class="stat-card">
+                    <div class="stat-number" data-count="2500" data-suffix="+">0</div>
+                    <div class="stat-label">Students</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card">
+                    <div class="stat-number" data-count="150" data-suffix="+">0</div>
+                    <div class="stat-label">Teachers</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-card">
+                    <div class="stat-number" data-count="15" data-suffix=" Acres">0</div>
+                    <div class="stat-label">Campus Area</div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-card">
+                    <div class="stat-number" data-count="98" data-suffix="%">0</div>
+                    <div class="stat-label">Board Results</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="section" id="why-us">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">Why Choose Us</span>
+            <h2>Excellence in Every Dimension</h2>
+            <p>Discover what makes our school the preferred choice for discerning parents and ambitious students.</p>
+        </div>
+        <div class="row g-4">
+            {% set features = [
+                ('bi-display', 'Smart Classes', 'Interactive digital boards and AI-powered learning tools in every classroom.'),
+                ('bi-people', 'Experienced Faculty', 'Highly qualified teachers with passion for nurturing young minds.'),
+                ('bi-trophy', 'Sports Excellence', 'State-of-the-art sports facilities with professional coaching programs.'),
+                ('bi-flask', 'Modern Labs', 'Fully equipped science, computer, and robotics laboratories.'),
+                ('bi-cpu', 'Technology Integration', 'Coding, robotics, and digital literacy from early grades.'),
+                ('bi-shield-check', 'Safety First', 'CCTV surveillance, trained staff, and secure campus environment.'),
+            ] %}
+            {% for icon, title, desc in features %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi {{ icon }}"></i></div>
+                    <h5>{{ title }}</h5>
+                    <p>{{ desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Facilities Showcase -->
+<section class="section bg-white" id="facilities">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">Our Facilities</span>
+            <h2>World-Class Infrastructure</h2>
+            <p>Explore our premium facilities designed to provide the best learning environment.</p>
+        </div>
+        <div class="row g-4">
+            {% set facilities = [
+                ('Library', 'images/facility-library.jpg'),
+                ('Science Lab', 'images/facility-lab.jpg'),
+                ('Sports Complex', 'images/facility-sports.jpg'),
+                ('Auditorium', 'images/facility-auditorium.jpg'),
+                ('Swimming Pool', 'images/facility-pool.jpg'),
+                ('Smart Classroom', 'images/facility-smart.jpg'),
+            ] %}
+            {% for name, img in facilities %}
+            <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="{{ loop.index0 * 80 }}">
+                <div class="facility-card">
+                    <img src="{{ url_for('static', filename=img) }}" alt="{{ name }}">
+                    <div class="facility-overlay"><h5>{{ name }}</h5></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{{ url_for('main.facilities') }}" class="btn btn-primary-custom">View All Facilities</a>
+        </div>
+    </div>
+</section>
+
+<!-- Principal Message -->
+<section class="section">
+    <div class="container">
+        <div class="principal-section" data-aos="fade-up">
+            <div class="row g-0 align-items-center">
+                <div class="col-lg-5">
+                    <img src="{{ url_for('static', filename='images/principal.jpg') }}" alt="Principal"
+                         class="principal-image w-100">
+                </div>
+                <div class="col-lg-7">
+                    <div class="principal-content">
+                        <div class="quote-icon"><i class="bi bi-quote"></i></div>
+                        <blockquote>"Education is not preparation for life; education is life itself. At {{ school_name }}, we nurture curiosity, build character, and inspire excellence in every child."</blockquote>
+                        <div class="principal-name">Dr. Ananya Mehta</div>
+                        <div class="principal-title">Principal, {{ school_name }}</div>
+                        <a href="{{ url_for('main.principal_message') }}" class="btn btn-accent mt-4">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Achievements Timeline -->
+<section class="section bg-white">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">Our Journey</span>
+            <h2>Achievements & Milestones</h2>
+        </div>
+        <div class="timeline">
+            {% set milestones = [
+                ('2010', 'School Founded', 'Established with a vision to provide world-class education.'),
+                ('2015', 'CBSE Affiliation', 'Received CBSE affiliation for classes Nursery to XII.'),
+                ('2018', 'Smart Campus', 'Complete digital transformation with smart classrooms.'),
+                ('2021', 'National Recognition', 'Awarded Best School in the region by Education Ministry.'),
+                ('2024', 'AI Integration', 'Pioneered AI-powered learning and career guidance platform.'),
+            ] %}
+            {% for year, title, desc in milestones %}
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">{{ year }}</div>
+                    <h5>{{ title }}</h5>
+                    <p class="mb-0 text-secondary">{{ desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Preview -->
+<section class="section" id="gallery-preview">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">Gallery</span>
+            <h2>Life at Our Campus</h2>
+        </div>
+        <div class="gallery-grid">
+            {% if gallery %}
+                {% for item in gallery %}
+                <a href="{{ url_for('static', filename='uploads/' + item.image_filename) }}" class="gallery-item glightbox" data-aos="fade-up" title="{{ item.title }}">
+                    <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}" alt="{{ item.title }}"
+                         onerror="this.src='{{ url_for('static', filename='images/gallery-' ~ ((loop.index0 % 12) + 1) ~ '.jpg') }}'">
+                    <div class="gallery-item-overlay"><i class="bi bi-zoom-in"></i></div>
+                </a>
+                {% endfor %}
+            {% else %}
+                {% for i in range(1, 7) %}
+                <a href="{{ url_for('static', filename='images/gallery-' ~ i ~ '.jpg') }}" class="gallery-item glightbox" data-aos="fade-up">
+                    <img src="{{ url_for('static', filename='images/gallery-' ~ i ~ '.jpg') }}" alt="Campus Life">
+                    <div class="gallery-item-overlay"><i class="bi bi-zoom-in"></i></div>
+                </a>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{{ url_for('main.gallery') }}" class="btn btn-primary-custom">View Full Gallery</a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section bg-white">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">Testimonials</span>
+            <h2>What Parents & Students Say</h2>
+        </div>
+        <div class="swiper testimonials-swiper" data-aos="fade-up">
+            <div class="swiper-wrapper">
+                {% for t in testimonials %}
+                <div class="swiper-slide">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            {% for i in range(t.rating) %}<i class="bi bi-star-fill"></i>{% endfor %}
+                        </div>
+                        <p class="testimonial-text">"{{ t.content }}"</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar">{{ t.name[0] }}</div>
+                            <div>
+                                <div class="testimonial-name">{{ t.name }}</div>
+                                <div class="testimonial-role">{{ t.role|capitalize }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination mt-4"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest News -->
+<section class="section">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">Latest News</span>
+            <h2>News & Updates</h2>
+        </div>
+        <div class="row g-4">
+            {% for item in news %}
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                <div class="news-card">
+                    <div class="news-card-image">
+                        <img src="{{ url_for('static', filename='uploads/' + item.image_filename) if item.image_filename else url_for('static', filename='images/news-placeholder.jpg') }}"
+                             alt="{{ item.title }}"
+                             onerror="this.src='{{ url_for('static', filename='images/news-placeholder.jpg') }}'">
+                    </div>
+                    <div class="news-card-body">
+                        <div class="news-date">{{ item.published_at.strftime('%b %d, %Y') }}</div>
+                        <h5>{{ item.title }}</h5>
+                        <p>{{ item.summary or item.content[:120] }}...</p>
+                        <a href="{{ url_for('main.news_detail', slug=item.slug) }}" class="read-more">Read More <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- AI Assistant Banner -->
+<section class="section">
+    <div class="container">
+        <div class="ai-banner" data-aos="fade-up">
+            <div class="ai-banner-icon"><i class="bi bi-robot"></i></div>
+            <div class="flex-grow-1">
+                <h3>Chat With School AI</h3>
+                <p class="text-secondary mb-0">Get instant answers about admissions, facilities, fees, and more with our AI-powered assistant.</p>
+            </div>
+            <a href="{{ url_for('main.ai_assistant') }}" class="btn btn-accent">Try AI Assistant</a>
+        </div>
+    </div>
+</section>
+
+<!-- Admission CTA -->
+<section class="section pb-0">
+    <div class="container">
+        <div class="cta-banner" data-aos="zoom-in">
+            <h2>Begin Your Child's Journey of Excellence</h2>
+            <p>Admissions open for Academic Year 2026-27. Limited seats available.</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('main.apply_online') }}" class="btn btn-accent btn-lg">Apply Online</a>
+                <a href="{{ url_for('main.contact', type='campus_visit') }}" class="btn btn-outline-light-custom btn-lg">Book Campus Visit</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

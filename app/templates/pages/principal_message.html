@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Principal's Message — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header("Principal's Message", [{'label': "Principal's Message"}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-4 text-center" data-aos="fade-right">
+                <img src="{{ url_for('static', filename='images/principal.jpg') }}" alt="Principal" class="rounded-4 shadow w-100" style="max-width:350px">
+                <h4 class="mt-4">Dr. Ananya Mehta</h4>
+                <p class="text-secondary">Principal, {{ school_name }}</p>
+            </div>
+            <div class="col-lg-8" data-aos="fade-left">
+                <div class="content-card">
+                    <p>Dear Students and Parents,</p>
+                    <p class="text-secondary">Education is not preparation for life; education is life itself. At {{ school_name }}, we believe in nurturing the whole child — intellectually, emotionally, socially, and physically.</p>
+                    <p class="text-secondary">Our dedicated faculty employs innovative teaching methods, integrating technology and experiential learning to make education engaging and meaningful. We focus on developing critical thinking, creativity, and collaboration — skills essential for success in the 21st century.</p>
+                    <p class="text-secondary">I encourage every student to embrace challenges, celebrate diversity, and strive for excellence in all endeavors. Together, we will build a brighter future.</p>
+                    <p class="fw-bold mt-4">Dr. Ananya Mehta<br><span class="text-secondary fw-normal">Principal</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

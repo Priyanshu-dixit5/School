@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Admission Process — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Admission Process', [{'label': 'Admissions', 'url': url_for('main.admissions')}, {'label': 'Process'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="timeline">
+            {% for step in [
+                ('Step 1', 'Online Application', 'Fill out the online admission form with student and parent details. Upload required documents and photo.'),
+                ('Step 2', 'Document Verification', 'Submit original documents at the school office for verification within 7 days of application.'),
+                ('Step 3', 'Student Interaction', 'Attend a brief interaction session with our academic team to assess readiness and discuss expectations.'),
+                ('Step 4', 'Admission Confirmation', 'Upon selection, complete fee payment and receive official admission confirmation with student ID.'),
+            ] %}
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-year">{{ step[0] }}</div>
+                    <h5>{{ step[1] }}</h5>
+                    <p class="mb-0 text-secondary">{{ step[2] }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{{ url_for('main.apply_online') }}" class="btn btn-accent btn-lg">Start Application</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

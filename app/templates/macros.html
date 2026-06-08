@@ -1,0 +1,20 @@
+{% macro page_header(title, breadcrumb_items) %}
+<section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container">
+        <div class="page-hero-content" data-aos="fade-up">
+            <h1>{{ title }}</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('main.home') }}">Home</a></li>
+                    {% for item in breadcrumb_items %}
+                    <li class="breadcrumb-item {% if loop.last %}active{% endif %}">
+                        {% if item.url %}<a href="{{ item.url }}">{{ item.label }}</a>{% else %}{{ item.label }}{% endif %}
+                    </li>
+                    {% endfor %}
+                </ol>
+            </nav>
+        </div>
+    </div>
+</section>
+{% endmacro %}

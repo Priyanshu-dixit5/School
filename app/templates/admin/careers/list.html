@@ -1,0 +1,32 @@
+{% extends 'admin/base.html' %}
+{% block title %}Careers{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <h2>Careers</h2>
+    <a href="{{ url_for('admin.career_add') }}" class="btn btn-accent btn-sm">Add Job</a>
+</div>
+<div class="admin-table">
+    <table class="table table-hover mb-0">
+        <thead><tr><th>Title</th><th>Department</th><th>Type</th><th>Active</th><th>Actions</th></tr></thead>
+        <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.title }}</td>
+            <td>{{ item.department or '—' }}</td>
+            <td>{{ item.employment_type }}</td>
+            <td><span class="badge bg-{{ 'success' if item.is_active else 'secondary' }}">{{ 'Active' if item.is_active else 'Inactive' }}</span></td>
+            <td>
+                <a href="{{ url_for('admin.career_edit', id=item.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                <form method="POST" action="{{ url_for('admin.career_delete', id=item.id) }}" class="d-inline" onsubmit="return confirm('Delete?')">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-secondary py-4">No career postings</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

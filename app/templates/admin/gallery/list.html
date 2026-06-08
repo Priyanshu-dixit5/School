@@ -1,0 +1,28 @@
+{% extends 'admin/base.html' %}
+{% block title %}Gallery{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <h2>Gallery</h2>
+    <a href="{{ url_for('admin.gallery_add') }}" class="btn btn-accent btn-sm">Add Item</a>
+</div>
+<div class="row g-3">
+    {% for item in items %}
+    <div class="col-md-4 col-lg-3">
+        <div class="content-card p-2">
+            <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}" class="rounded-3 w-100" style="height:150px;object-fit:cover" alt="{{ item.title }}">
+            <h6 class="mt-2 mb-1">{{ item.title }}</h6>
+            <small class="text-secondary">{{ item.category }}</small>
+            <div class="mt-2">
+                <a href="{{ url_for('admin.gallery_edit', id=item.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                <form method="POST" action="{{ url_for('admin.gallery_delete', id=item.id) }}" class="d-inline" onsubmit="return confirm('Delete?')">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12 text-center text-secondary py-5">No gallery items. <a href="{{ url_for('admin.gallery_add') }}">Add one</a></div>
+    {% endfor %}
+</div>
+{% endblock %}

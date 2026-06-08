@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}AI Assistant — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('AI Assistant', [{'label': 'AI Assistant'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="section-header mb-5" data-aos="fade-up">
+            <span class="section-label">Powered by Gemini AI</span>
+            <h2>Intelligent School Assistance</h2>
+            <p>Get instant answers and personalized guidance for admissions, careers, and more.</p>
+        </div>
+
+        <!-- AI Chatbot -->
+        <div class="content-card mb-4" data-aos="fade-up">
+            <h4><i class="bi bi-chat-dots text-accent"></i> School Chatbot</h4>
+            <p class="text-secondary">Ask anything about admissions, facilities, timings, fees, transport, and faculty.</p>
+            <div id="aiChatMessages" class="chat-messages border rounded-3 mb-3" style="max-height:300px;background:var(--bg)">
+                <div class="chat-message bot"><div class="message-bubble">Hello! How can I help you today?</div></div>
+            </div>
+            <div class="d-flex gap-2">
+                <input type="text" id="aiChatInput" class="form-control" placeholder="Ask a question..." maxlength="1000">
+                <button class="btn btn-accent" id="aiChatSend"><i class="bi bi-send-fill"></i></button>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Admission Assistant -->
+            <div class="col-lg-6" data-aos="fade-up">
+                <div class="content-card h-100">
+                    <h4><i class="bi bi-person-check text-accent"></i> Admission Assistant</h4>
+                    <p class="text-secondary">Get personalized admission guidance based on your child's details.</p>
+                    <div class="row g-3">
+                        <div class="col-4"><input type="number" id="admAge" class="form-control" placeholder="Age" min="2" max="18"></div>
+                        <div class="col-4">
+                            <select id="admClass" class="form-select">
+                                <option value="">Class</option>
+                                {% for val, label in [('nursery','Nursery'),('lkg','LKG'),('ukg','UKG'),('1','Class 1'),('6','Class 6'),('9','Class 9'),('11','Class 11')] %}
+                                <option value="{{ val }}">{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-4"><input type="text" id="admLocation" class="form-control" placeholder="Location"></div>
+                    </div>
+                    <button class="btn btn-primary-custom mt-3" id="admAssistBtn">Get Guidance</button>
+                    <div id="admLoading" class="ai-loading" style="display:none"><div class="spinner-border"></div> Analyzing...</div>
+                    <div id="admResponse" class="ai-response-box" style="display:none"></div>
+                </div>
+            </div>
+
+            <!-- Career Guidance -->
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="content-card h-100">
+                    <h4><i class="bi bi-compass text-accent"></i> Career Guidance</h4>
+                    <p class="text-secondary">Explore career paths for Science, Commerce, or Arts streams.</p>
+                    <select id="careerStream" class="form-select mb-3">
+                        <option value="science">Science Stream</option>
+                        <option value="commerce">Commerce Stream</option>
+                        <option value="arts">Arts Stream</option>
+                    </select>
+                    <button class="btn btn-primary-custom" id="careerBtn">Explore Careers</button>
+                    <div id="careerLoading" class="ai-loading" style="display:none"><div class="spinner-border"></div> Generating guidance...</div>
+                    <div id="careerResponse" class="ai-response-box" style="display:none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('aiChatSend')?.addEventListener('click', async () => {
+    const input = document.getElementById('aiChatInput');
+    const msgs = document.getElementById('aiChatMessages');
+    const text = input.value.trim();
+    if (!text) return;
+    msgs.innerHTML += `<div class="chat-message user"><div class="message-bubble">${text.replace(/</g,'&lt;')}</div></div>`;
+    input.value = '';
+    msgs.scrollTop = msgs.scrollHeight;
+    const csrf = document.querySelector('meta[name="csrf-token"]')?.value;
+    try {
+        const res = await fetch('/ai/chat', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':csrf||''}, body: JSON.stringify({message:text}) });
+        const data = await res.json();
+        const reply = data.response || data.error || 'Sorry, I could not process your request.';
+        msgs.innerHTML += `<div class="chat-message bot"><div class="message-bubble">${reply.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div></div>`;
+    } catch(e) {
+        msgs.innerHTML += `<div class="chat-message bot"><div class="message-bubble">Connection error. Please try again.</div></div>`;
+    }
+    msgs.scrollTop = msgs.scrollHeight;
+});
+document.getElementById('aiChatInput')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') document.getElementById('aiChatSend')?.click();
+});
+
+document.getElementById('admAssistBtn')?.addEventListener('click', () => {
+    callAI('/ai/admission-assistant', {
+        student_age: parseInt(document.getElementById('admAge').value),
+        class_applying: document.getElementById('admClass').value,
+        location: document.getElementById('admLocation').value,
+    }, document.getElementById('admResponse'), document.getElementById('admLoading'));
+});
+
+document.getElementById('careerBtn')?.addEventListener('click', () => {
+    callAI('/ai/career-guidance', {
+        stream: document.getElementById('careerStream').value,
+    }, document.getElementById('careerResponse'), document.getElementById('careerLoading'));
+});
+</script>
+{% endblock %}

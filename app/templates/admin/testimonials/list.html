@@ -1,0 +1,31 @@
+{% extends 'admin/base.html' %}
+{% block title %}Testimonials{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <h2>Testimonials</h2>
+    <a href="{{ url_for('admin.testimonial_add') }}" class="btn btn-accent btn-sm">Add Testimonial</a>
+</div>
+<div class="admin-table">
+    <table class="table table-hover mb-0">
+        <thead><tr><th>Name</th><th>Role</th><th>Rating</th><th>Published</th><th>Actions</th></tr></thead>
+        <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.role }}</td>
+            <td>{{ '★' * item.rating }}</td>
+            <td>{{ 'Yes' if item.is_published else 'No' }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('admin.testimonial_delete', id=item.id) }}" class="d-inline" onsubmit="return confirm('Delete?')">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-secondary py-4">No testimonials</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

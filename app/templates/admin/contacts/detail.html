@@ -1,0 +1,57 @@
+{% extends 'admin/base.html' %}
+{% block title %}Query from {{ contact.name }}{% endblock %}
+{% block content %}
+<div class="admin-header d-flex justify-content-between align-items-center">
+    <h2>Contact Query Details</h2>
+    <a href="{{ url_for('admin.contacts_list') }}" class="btn btn-outline-secondary btn-sm">Back to List</a>
+</div>
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="content-card">
+            <div class="d-flex flex-wrap gap-2 mb-4">
+                <span class="badge bg-primary fs-6">{{ query_type_label(contact.query_type or 'general') }}</span>
+                {% if contact.is_read %}
+                <span class="badge bg-success">Read</span>
+                {% else %}
+                <span class="badge bg-warning text-dark">Unread</span>
+                {% endif %}
+                {% if contact.email_sent %}
+                <span class="badge bg-info">Email Sent</span>
+                {% endif %}
+            </div>
+            <h5 class="mb-3">Message</h5>
+            <div class="p-4 rounded-3 bg-light mb-4" style="white-space:pre-wrap">{{ contact.message }}</div>
+            <p class="text-secondary small mb-0">Received on {{ contact.created_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="content-card mb-3">
+            <h5 class="mb-3">Sender Details</h5>
+            <table class="table table-borderless mb-0">
+                <tr><td class="text-secondary">Name</td><td><strong>{{ contact.name }}</strong></td></tr>
+                <tr><td class="text-secondary">Email</td><td><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></td></tr>
+                <tr><td class="text-secondary">Phone</td><td>{% if contact.phone %}<a href="tel:{{ contact.phone }}">{{ contact.phone }}</a>{% else %}—{% endif %}</td></tr>
+                <tr><td class="text-secondary">Inquiry Type</td><td>{{ query_type_label(contact.query_type or 'general') }}</td></tr>
+            </table>
+        </div>
+        <div class="content-card">
+            <h5 class="mb-3">Actions</h5>
+            <a href="mailto:{{ contact.email }}?subject=Re: {{ query_type_label(contact.query_type or 'general') }} — {{ school_name }}" class="btn btn-accent w-100 mb-2">
+                <i class="bi bi-reply me-1"></i> Reply via Email
+            </a>
+            {% if not contact.is_read %}
+            <form method="POST" action="{{ url_for('admin.contact_mark_read', id=contact.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="btn btn-outline-success w-100 mb-2">Mark as Read</button>
+            </form>
+            {% endif %}
+            {% if current_user.is_admin %}
+            <form method="POST" action="{{ url_for('admin.contact_delete', id=contact.id) }}" onsubmit="return confirm('Delete this query permanently?')">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="btn btn-outline-danger w-100">Delete Query</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

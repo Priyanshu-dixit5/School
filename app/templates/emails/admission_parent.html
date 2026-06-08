@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="font-family:Inter,sans-serif;color:#111827;max-width:600px;margin:0 auto;padding:20px">
+    <div style="background:#0F172A;color:#fff;padding:24px;border-radius:12px 12px 0 0;text-align:center">
+        <h2 style="margin:0;color:#F59E0B">Admission Confirmation</h2>
+        <p style="margin:8px 0 0">{{ school_name }}</p>
+    </div>
+    <div style="background:#fff;padding:32px;border:1px solid #E5E7EB;border-top:none;border-radius:0 0 12px 12px">
+        <p>Dear Parent,</p>
+        <p>Thank you for applying to <strong>{{ school_name }}</strong>. We have received your application successfully.</p>
+        <div style="background:#F8FAFC;padding:20px;border-radius:12px;text-align:center;margin:24px 0">
+            <p style="margin:0 0 8px;color:#6B7280">Your Admission ID</p>
+            <p style="margin:0;font-size:24px;font-weight:700;color:#1E3A8A;letter-spacing:2px">{{ admission.admission_id }}</p>
+        </div>
+        <p><strong>Student:</strong> {{ admission.student_name }}<br>
+        <strong>Class:</strong> {{ admission.class_applying|upper }}</p>
+        <p>Our admissions team will review your application and contact you shortly regarding the next steps.</p>
+        <p style="color:#6B7280;font-size:14px">If you have any questions, please contact us at {{ school_phone }}.</p>
+        <p>Best regards,<br><strong>{{ school_name }} Admissions Team</strong></p>
+    </div>
+</body>
+</html>

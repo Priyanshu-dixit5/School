@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}About Us — {{ school_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container">
+        <div class="page-hero-content" data-aos="fade-up">
+            <h1>About Us</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('main.home') }}">Home</a></li>
+                    <li class="breadcrumb-item active">About Us</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="content-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6" data-aos="fade-right">
+                <img src="{{ url_for('static', filename='images/about-campus.jpg') }}" alt="About {{ school_name }}" class="rounded-4 shadow w-100">
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <span class="section-label">Our Story</span>
+                <h2 class="mb-4">A Legacy of Educational Excellence</h2>
+                <p class="text-secondary">{{ school_name }} was founded with a singular vision: to create an educational institution that combines academic rigor with holistic development.</p>
+                <p class="text-secondary">Our 15-acre campus houses state-of-the-art facilities, experienced faculty, and a vibrant community of learners prepared to lead in an ever-changing world.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

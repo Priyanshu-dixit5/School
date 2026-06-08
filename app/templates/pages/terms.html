@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Terms & Conditions — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Terms & Conditions', [{'label': 'Terms & Conditions'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="content-card" data-aos="fade-up">
+            <p><strong>Last updated:</strong> June 2026</p>
+            <h4>Acceptance of Terms</h4>
+            <p class="text-secondary">By accessing and using the {{ school_name }} website, you agree to be bound by these terms and conditions.</p>
+            <h4>Admission Terms</h4>
+            <p class="text-secondary">Online applications are subject to verification. Submission does not guarantee admission. The school reserves the right to accept or reject applications at its discretion.</p>
+            <h4>Intellectual Property</h4>
+            <p class="text-secondary">All content on this website including text, images, logos, and design elements is the property of {{ school_name }} and protected by copyright laws.</p>
+            <h4>Limitation of Liability</h4>
+            <p class="text-secondary">The school shall not be liable for any indirect, incidental, or consequential damages arising from the use of this website or services.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

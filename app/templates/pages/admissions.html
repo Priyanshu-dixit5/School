@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Admissions — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Admissions', [{'label': 'Admissions'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="section-header mb-5" data-aos="fade-up">
+            <span class="section-label">Join Us</span>
+            <h2>Admissions Open 2026-27</h2>
+            <p>Welcome your child to a world of opportunities and excellence.</p>
+        </div>
+        <div class="row g-4 mb-5">
+            {% for item in [
+                ('Age Criteria', 'Admission based on age-appropriate class placement as per CBSE norms.', 'bi-calendar-check'),
+                ('Documents', 'Birth certificate, previous school records, photos, and address proof required.', 'bi-file-earmark-text'),
+                ('Interaction', 'Student interaction session to understand learning needs and potential.', 'bi-chat-dots'),
+                ('Confirmation', 'Admission confirmed upon fee payment and document verification.', 'bi-check-circle'),
+            ] %}
+            <div class="col-md-6 col-lg-3" data-aos="fade-up">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mx-auto"><i class="bi {{ item[2] }}"></i></div>
+                    <h5>{{ item[0] }}</h5>
+                    <p>{{ item[1] }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="cta-banner" data-aos="zoom-in">
+            <h2>Ready to Apply?</h2>
+            <p>Start your admission journey today with our simple online application process.</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('main.apply_online') }}" class="btn btn-accent btn-lg">Apply Online</a>
+                <a href="{{ url_for('main.admission_process') }}" class="btn btn-outline-light-custom btn-lg">View Process</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

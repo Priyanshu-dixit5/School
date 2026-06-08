@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Privacy Policy — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Privacy Policy', [{'label': 'Privacy Policy'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="content-card" data-aos="fade-up">
+            <p><strong>Last updated:</strong> June 2026</p>
+            <h4>Information We Collect</h4>
+            <p class="text-secondary">We collect information you provide directly, such as name, email, phone number, and student details when you submit admission or contact forms.</p>
+            <h4>How We Use Information</h4>
+            <p class="text-secondary">Your information is used to process admissions, respond to inquiries, send confirmations, and improve our services. We do not sell personal data to third parties.</p>
+            <h4>Data Security</h4>
+            <p class="text-secondary">We implement appropriate security measures including encryption, secure storage, and access controls to protect your personal information.</p>
+            <h4>Contact</h4>
+            <p class="text-secondary">For privacy-related inquiries, contact us at school@example.com.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

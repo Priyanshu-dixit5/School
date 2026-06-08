@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Application Submitted — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Application Submitted', [{'label': 'Success'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="success-page" data-aos="fade-up">
+            <div class="success-icon"><i class="bi bi-check-lg"></i></div>
+            <h2>Application Submitted Successfully!</h2>
+            <p class="text-secondary">Thank you for applying to {{ school_name }}. Your application has been received.</p>
+            <div class="admission-id-badge">{{ admission.admission_id }}</div>
+            <p class="text-secondary">Please save this Admission ID for future reference.</p>
+            <div class="content-card text-start mt-4 mx-auto" style="max-width:500px">
+                <h5>Application Details</h5>
+                <hr>
+                <p><strong>Student:</strong> {{ admission.student_name }}</p>
+                <p><strong>Class:</strong> {{ admission.class_applying|upper }}</p>
+                <p><strong>Email:</strong> {{ admission.email }}</p>
+                <p class="mb-0"><strong>Phone:</strong> {{ admission.phone }}</p>
+            </div>
+            <div class="mt-4">
+                <a href="{{ url_for('main.home') }}" class="btn btn-primary-custom me-2">Back to Home</a>
+                <a href="{{ url_for('main.admission_process') }}" class="btn btn-outline-secondary">View Next Steps</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

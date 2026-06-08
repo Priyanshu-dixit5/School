@@ -1,0 +1,63 @@
+{% extends 'admin/base.html' %}
+{% block title %}Contact Queries{% endblock %}
+{% block content %}
+<div class="admin-header d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <h2 class="mb-0">Contact Queries</h2>
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{{ url_for('admin.contacts_list') }}" class="btn btn-sm {{ 'btn-accent' if not query_filter else 'btn-outline-secondary' }}">All</a>
+        {% for value, label in [
+            ('admission', 'Admission'), ('career', 'Career'), ('campus_visit', 'Campus Visit'),
+            ('general', 'General'), ('feedback', 'Feedback'), ('other', 'Other')
+        ] %}
+        <a href="{{ url_for('admin.contacts_list', type=value) }}" class="btn btn-sm {{ 'btn-accent' if query_filter == value else 'btn-outline-secondary' }}">{{ label }}</a>
+        {% endfor %}
+    </div>
+</div>
+<div class="admin-table">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Message Preview</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for c in contacts %}
+        <tr class="{{ 'table-warning' if not c.is_read else '' }}">
+            <td>
+                {% if c.is_read %}
+                <span class="badge bg-success">Read</span>
+                {% else %}
+                <span class="badge bg-warning text-dark">New</span>
+                {% endif %}
+            </td>
+            <td><span class="badge bg-primary">{{ query_type_label(c.query_type or 'general') }}</span></td>
+            <td><strong>{{ c.name }}</strong></td>
+            <td><a href="mailto:{{ c.email }}">{{ c.email }}</a></td>
+            <td>{{ c.phone or '—' }}</td>
+            <td class="text-secondary" style="max-width:220px">{{ c.message[:100] }}{% if c.message|length > 100 %}…{% endif %}</td>
+            <td>{{ c.created_at.strftime('%b %d, %Y %H:%M') }}</td>
+            <td class="text-nowrap">
+                <a href="{{ url_for('admin.contact_detail', id=c.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                {% if current_user.is_admin %}
+                <form method="POST" action="{{ url_for('admin.contact_delete', id=c.id) }}" class="d-inline" onsubmit="return confirm('Delete this query?')">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="text-center text-secondary py-4">No contact queries{% if query_filter %} for this type{% endif %}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p class="text-secondary small mt-3 mb-0"><i class="bi bi-info-circle"></i> Admission applications submitted via <a href="{{ url_for('admin.admissions_list') }}">Apply Online</a> appear separately under Admissions.</p>
+{% endblock %}

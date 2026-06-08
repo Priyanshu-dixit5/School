@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Chairman's Message — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header("Chairman's Message", [{'label': "Chairman's Message"}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-4 text-center" data-aos="fade-right">
+                <img src="{{ url_for('static', filename='images/chairman.jpg') }}" alt="Chairman" class="rounded-4 shadow w-100" style="max-width:350px">
+                <h4 class="mt-4">Mr. Vikram Singh</h4>
+                <p class="text-secondary">Chairman, {{ school_name }}</p>
+            </div>
+            <div class="col-lg-8" data-aos="fade-left">
+                <div class="content-card">
+                    <div class="quote-icon text-accent mb-3" style="font-size:3rem;color:var(--accent);opacity:0.5"><i class="bi bi-quote"></i></div>
+                    <p>Dear Parents and Students,</p>
+                    <p class="text-secondary">It gives me immense pride to welcome you to {{ school_name }}. When we established this institution, our dream was to create a place where every child could discover their unique potential and develop the skills needed for tomorrow's world.</p>
+                    <p class="text-secondary">Today, that dream has blossomed into a thriving community of learners, educators, and innovators. We remain committed to providing an environment where curiosity is celebrated, excellence is pursued, and character is built.</p>
+                    <p class="text-secondary">I invite you to join us in this remarkable journey of transformation and growth.</p>
+                    <p class="fw-bold mt-4">Mr. Vikram Singh<br><span class="text-secondary fw-normal">Chairman</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

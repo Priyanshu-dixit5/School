@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}{{ news.title }} — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header(news.title, [{'label': 'News', 'url': url_for('main.news_list')}, {'label': news.title}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8" data-aos="fade-up">
+                <div class="content-card">
+                    <div class="news-date mb-3">{{ news.published_at.strftime('%B %d, %Y') }}</div>
+                    <img src="{{ url_for('static', filename='uploads/' + news.image_filename) if news.image_filename else url_for('static', filename='images/news-placeholder.jpg') }}"
+                         class="rounded-3 mb-4 w-100" alt="{{ news.title }}"
+                         onerror="this.src='{{ url_for('static', filename='images/news-placeholder.jpg') }}'">
+                    <div class="news-content">{{ news.content|replace('\n', '<br>')|safe }}</div>
+                </div>
+            </div>
+            <div class="col-lg-4" data-aos="fade-left">
+                <h5 class="mb-3">Recent News</h5>
+                {% for item in recent_news %}
+                <div class="feature-card mb-3 p-3">
+                    <div class="news-date">{{ item.published_at.strftime('%b %d, %Y') }}</div>
+                    <h6><a href="{{ url_for('main.news_detail', slug=item.slug) }}">{{ item.title }}</a></h6>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

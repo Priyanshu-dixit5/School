@@ -1,0 +1,18 @@
+{% extends 'admin/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="admin-header"><h2>{{ title }}</h2></div>
+<div class="content-card" style="max-width:600px">
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="mb-3"><label class="form-label">{{ form.title.label }}</label>{{ form.title(class="form-control") }}</div>
+        <div class="mb-3"><label class="form-label">{{ form.description.label }}</label>{{ form.description(class="form-control", rows=3) }}</div>
+        <div class="mb-3"><label class="form-label">{{ form.event_date.label }}</label>{{ form.event_date(class="form-control", type="datetime-local") }}</div>
+        <div class="mb-3"><label class="form-label">{{ form.location.label }}</label>{{ form.location(class="form-control") }}</div>
+        <div class="mb-3 form-check">{{ form.is_published(class="form-check-input") }}<label class="form-check-label">{{ form.is_published.label }}</label></div>
+        <div class="mb-3"><label class="form-label">{{ form.image.label }}</label>{{ form.image(class="form-control") }}</div>
+        <button type="submit" class="btn btn-accent">Save</button>
+        <a href="{{ url_for('admin.events_list') }}" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

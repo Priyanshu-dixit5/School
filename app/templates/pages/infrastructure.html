@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Infrastructure — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Infrastructure', [{'label': 'Infrastructure'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="row g-5 align-items-center mb-5">
+            <div class="col-lg-6" data-aos="fade-right">
+                <span class="section-label">Campus</span>
+                <h2>15-Acre Green Campus</h2>
+                <p class="text-secondary">Our sprawling campus is designed to provide a serene, inspiring environment for learning. Lush green lawns, modern architecture, and thoughtfully planned spaces create the perfect setting for holistic education.</p>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="{{ url_for('static', filename='images/infrastructure-campus.jpg') }}" class="rounded-4 shadow w-100" alt="Campus">
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for item in [
+                ('Academic Blocks', '4 modern academic blocks with 60+ classrooms'),
+                ('Administration', 'Central admin building with reception and counseling center'),
+                ('Cafeteria', 'Hygienic cafeteria serving nutritious meals'),
+                ('Security', '24/7 CCTV surveillance and trained security personnel'),
+                ('Wi-Fi Campus', 'High-speed internet across the entire campus'),
+                ('Solar Power', 'Eco-friendly solar panels reducing carbon footprint'),
+            ] %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                <div class="feature-card"><h5>{{ item[0] }}</h5><p class="mb-0">{{ item[1] }}</p></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

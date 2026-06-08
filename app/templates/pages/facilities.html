@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Facilities — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Facilities', [{'label': 'Facilities'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="row g-4">
+            {% set facilities = [
+                ('Smart Classrooms', 'Interactive digital boards and multimedia learning in every classroom.', 'bi-display', 'images/facility-smart.jpg'),
+                ('Science Laboratories', 'Fully equipped physics, chemistry, and biology labs for hands-on experiments.', 'bi-flask', 'images/facility-lab.jpg'),
+                ('Computer & Robotics Lab', 'Latest computers, coding platforms, and robotics kits for STEM education.', 'bi-cpu', 'images/facility-computer.jpg'),
+                ('Library', 'Extensive collection of books, digital resources, and quiet study spaces.', 'bi-book', 'images/facility-library.jpg'),
+                ('Sports Complex', 'Cricket ground, basketball courts, football field, and indoor games.', 'bi-trophy', 'images/facility-sports.jpg'),
+                ('Swimming Pool', 'Olympic-size swimming pool with certified instructors.', 'bi-water', 'images/facility-pool.jpg'),
+                ('Auditorium', '500-seat auditorium for events, performances, and assemblies.', 'bi-mic', 'images/facility-auditorium.jpg'),
+                ('Transport', 'GPS-enabled fleet covering major city routes with trained attendants.', 'bi-bus-front', 'images/facility-transport.jpg'),
+                ('Medical Room', 'Qualified nurse on campus with tie-up to nearby hospital.', 'bi-heart-pulse', 'images/facility-medical.jpg'),
+            ] %}
+            {% for name, desc, icon, img in facilities %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                <div class="feature-card">
+                    <img src="{{ url_for('static', filename=img) }}" class="rounded-3 mb-3 w-100 facility-thumb" alt="{{ name }}">
+                    <div class="feature-icon"><i class="bi {{ icon }}"></i></div>
+                    <h5>{{ name }}</h5>
+                    <p>{{ desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

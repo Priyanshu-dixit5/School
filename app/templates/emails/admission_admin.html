@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="font-family:Inter,sans-serif;color:#111827;max-width:600px;margin:0 auto;padding:20px">
+    <div style="background:#0F172A;color:#fff;padding:24px;border-radius:12px 12px 0 0">
+        <h2 style="margin:0;color:#F59E0B">New Admission Application</h2>
+        <p style="margin:8px 0 0;opacity:0.8">{{ school_name }}</p>
+    </div>
+    <div style="background:#fff;padding:24px;border:1px solid #E5E7EB;border-top:none;border-radius:0 0 12px 12px">
+        <p><strong>Admission ID:</strong> <span style="color:#1E3A8A;font-size:18px">{{ admission.admission_id }}</span></p>
+        <h3>Student Details</h3>
+        <table style="width:100%;border-collapse:collapse">
+            <tr><td style="padding:8px 0"><strong>Name:</strong></td><td>{{ admission.student_name }}</td></tr>
+            <tr><td style="padding:8px 0"><strong>DOB:</strong></td><td>{{ admission.dob.strftime('%B %d, %Y') }}</td></tr>
+            <tr><td style="padding:8px 0"><strong>Gender:</strong></td><td>{{ admission.gender|capitalize }}</td></tr>
+            <tr><td style="padding:8px 0"><strong>Class:</strong></td><td>{{ admission.class_applying|upper }}</td></tr>
+            <tr><td style="padding:8px 0"><strong>Previous School:</strong></td><td>{{ admission.previous_school or 'N/A' }}</td></tr>
+        </table>
+        <h3>Parent Details</h3>
+        <table style="width:100%">
+            <tr><td style="padding:8px 0"><strong>Father:</strong></td><td>{{ admission.father_name }}</td></tr>
+            <tr><td style="padding:8px 0"><strong>Mother:</strong></td><td>{{ admission.mother_name }}</td></tr>
+            <tr><td style="padding:8px 0"><strong>Phone:</strong></td><td>{{ admission.phone }}</td></tr>
+            <tr><td style="padding:8px 0"><strong>Email:</strong></td><td>{{ admission.email }}</td></tr>
+            <tr><td style="padding:8px 0"><strong>Address:</strong></td><td>{{ admission.address }}</td></tr>
+        </table>
+    </div>
+</body>
+</html>
