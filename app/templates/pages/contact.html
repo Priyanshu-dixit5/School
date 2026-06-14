@@ -8,42 +8,60 @@
     <div class="container">
         <div class="row g-5">
             <div class="col-lg-5" data-aos="fade-right">
-                <h3 class="mb-4">Get In Touch</h3>
-                <p class="text-secondary mb-4">Have questions about admissions, careers, or campus visits? Send us a message and our team will respond promptly.</p>
+                <h3 class="mb-2">{{ school_name }}</h3>
+                <p class="text-secondary mb-4">We are located in Atraulia, Azamgarh. Reach out for general inquiries — for admissions, please use the QR code or online portal below.</p>
+
                 <div class="feature-card mb-3">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="feature-icon mb-0" style="width:48px;height:48px;font-size:1.2rem"><i class="bi bi-geo-alt"></i></div>
-                        <div><h6 class="mb-1">Address</h6><p class="mb-0 text-secondary">{{ school_address }}</p></div>
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="feature-icon mb-0 flex-shrink-0" style="width:48px;height:48px;font-size:1.2rem"><i class="bi bi-geo-alt"></i></div>
+                        <div>
+                            <h6 class="mb-1">Address</h6>
+                            <p class="mb-0 text-secondary">{{ school_address }}</p>
+                        </div>
                     </div>
                 </div>
                 <div class="feature-card mb-3">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="feature-icon mb-0" style="width:48px;height:48px;font-size:1.2rem"><i class="bi bi-telephone"></i></div>
-                        <div><h6 class="mb-1">Phone</h6><p class="mb-0 text-secondary"><a href="tel:{{ school_phone }}" class="text-secondary">{{ school_phone }}</a></p></div>
-                    </div>
-                </div>
-                <div class="feature-card mb-3">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="feature-icon mb-0" style="width:48px;height:48px;font-size:1.2rem"><i class="bi bi-envelope"></i></div>
-                        <div><h6 class="mb-1">Email</h6><p class="mb-0 text-secondary"><a href="mailto:{{ school_email }}" class="text-secondary">{{ school_email }}</a></p></div>
+                        <div class="feature-icon mb-0 flex-shrink-0" style="width:48px;height:48px;font-size:1.2rem"><i class="bi bi-telephone"></i></div>
+                        <div>
+                            <h6 class="mb-1">Phone</h6>
+                            <p class="mb-0"><a href="tel:{{ school_phone|replace(' ', '') }}" class="text-secondary">{{ school_phone }}</a></p>
+                        </div>
                     </div>
                 </div>
                 <div class="feature-card mb-4">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="feature-icon mb-0" style="width:48px;height:48px;font-size:1.2rem"><i class="bi bi-mortarboard"></i></div>
+                        <div class="feature-icon mb-0 flex-shrink-0" style="width:48px;height:48px;font-size:1.2rem"><i class="bi bi-envelope"></i></div>
                         <div>
-                            <h6 class="mb-1">Apply for Admission</h6>
-                            <p class="mb-0"><a href="{{ url_for('main.apply_online') }}">Submit online application &rarr;</a></p>
+                            <h6 class="mb-1">Email</h6>
+                            <p class="mb-0"><a href="mailto:{{ school_email }}" class="text-secondary">{{ school_email }}</a></p>
                         </div>
                     </div>
                 </div>
-                <iframe src="https://maps.google.com/maps?q=Delhi%20India&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                        width="100%" height="250" style="border:0;border-radius:18px;" allowfullscreen loading="lazy" title="School location map"></iframe>
+
+                <div class="content-card admission-info-card mb-4">
+                    <h5 class="mb-3"><i class="bi bi-mortarboard me-2"></i>Admission Queries</h5>
+                    <p class="text-secondary">For admission-related queries, scan the QR code or visit our official portal — no form required.</p>
+                    <div class="text-center my-3">
+                        <a href="{{ admission_portal_url }}" target="_blank" rel="noopener">
+                            <img src="{{ url_for('static', filename='images/admission-qr.jpeg') }}" alt="Admission Query QR" class="admission-qr-img rounded-3 shadow-sm">
+                        </a>
+                    </div>
+                    <a href="{{ admission_portal_url }}" target="_blank" rel="noopener" class="btn btn-accent w-100">
+                        <i class="bi bi-box-arrow-up-right me-2"></i>Open Admission Portal
+                    </a>
+                </div>
+
+                <div class="map-wrapper rounded-4 overflow-hidden shadow">
+                    <iframe src="https://maps.google.com/maps?q={{ map_embed_query }}&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                            width="100%" height="280" style="border:0;" allowfullscreen loading="lazy" title="{{ school_name }} location"></iframe>
+                </div>
             </div>
+
             <div class="col-lg-7" data-aos="fade-left">
                 <div class="content-card">
-                    <h3 class="mb-2">Send Us a Message</h3>
-                    <p class="text-secondary mb-4">Select your inquiry type so we can route your message to the right department.</p>
+                    <h3 class="mb-2">Send a General Message</h3>
+                    <p class="text-secondary mb-4">For general inquiries, feedback, or career applications — not for admission forms.</p>
                     {% if form.errors %}
                     <div class="alert alert-danger">
                         <strong>Please fix the following errors:</strong>
@@ -71,7 +89,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">{{ form.phone.label }}</label>
-                                {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else ""), placeholder="+91 98765 43210") }}
+                                {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else ""), placeholder="+91 XXXXX XXXXX") }}
                                 {% for e in form.phone.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}
                             </div>
                             <div class="col-md-6">

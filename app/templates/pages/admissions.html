@@ -6,10 +6,18 @@
 {{ page_header('Admissions', [{'label': 'Admissions'}]) }}
 <section class="content-section">
     <div class="container">
-        <div class="section-header mb-5" data-aos="fade-up">
-            <span class="section-label">Join Us</span>
-            <h2>Admissions Open 2026-27</h2>
-            <p>Welcome your child to a world of opportunities and excellence.</p>
+        <div class="row g-5 align-items-center mb-5">
+            <div class="col-lg-7" data-aos="fade-right">
+                <span class="section-label">Join Blue Bells</span>
+                <h2>Admissions Open 2026-27</h2>
+                <p class="text-secondary">Welcome your child to {{ school_name }}, Atraulia, Azamgarh — where learning is joyful and every child matters.</p>
+                <a href="{{ admission_portal_url }}" target="_blank" rel="noopener" class="btn btn-accent btn-lg mt-2">
+                    <i class="bi bi-box-arrow-up-right me-2"></i>Apply Online
+                </a>
+            </div>
+            <div class="col-lg-5 text-center" data-aos="fade-left">
+                <img src="{{ url_for('static', filename='images/admission-poster.jpeg') }}" alt="Admissions Open" class="rounded-4 shadow poster-img">
+            </div>
         </div>
         <div class="row g-4 mb-5">
             {% for item in [
@@ -27,11 +35,26 @@
             </div>
             {% endfor %}
         </div>
+        <div class="row g-4 mb-5 align-items-center">
+            <div class="col-md-6" data-aos="fade-up">
+                <img src="{{ url_for('static', filename='images/scholarship-guidance.jpeg') }}" alt="Scholarship Guidance" class="rounded-4 shadow w-100">
+                <h5 class="mt-3">Scholarship Guidance</h5>
+                <p class="text-secondary">We conduct sessions to guide students and parents on scholarship opportunities and higher education pathways.</p>
+            </div>
+            <div class="col-md-6 text-center" data-aos="fade-up" data-aos-delay="100">
+                <a href="{{ admission_portal_url }}" target="_blank" rel="noopener">
+                    <img src="{{ url_for('static', filename='images/admission-qr.jpeg') }}" alt="Admission Query QR" class="admission-qr-img rounded-4 shadow">
+                </a>
+                <p class="text-secondary mt-3">Scan this QR code or <a href="{{ admission_portal_url }}" target="_blank" rel="noopener">open the admission portal</a> for queries and applications.</p>
+            </div>
+        </div>
         <div class="cta-banner" data-aos="zoom-in">
             <h2>Ready to Apply?</h2>
-            <p>Start your admission journey today with our simple online application process.</p>
+            <p>Apply through our official online admission portal — no form on this website.</p>
             <div class="cta-buttons">
-                <a href="{{ url_for('main.apply_online') }}" class="btn btn-accent btn-lg">Apply Online</a>
+                <a href="{{ admission_portal_url }}" target="_blank" rel="noopener" class="btn btn-accent btn-lg">
+                    <i class="bi bi-box-arrow-up-right me-2"></i>Open Admission Portal
+                </a>
                 <a href="{{ url_for('main.admission_process') }}" class="btn btn-outline-light-custom btn-lg">View Process</a>
             </div>
         </div>

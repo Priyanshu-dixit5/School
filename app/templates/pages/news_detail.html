@@ -10,9 +10,8 @@
             <div class="col-lg-8" data-aos="fade-up">
                 <div class="content-card">
                     <div class="news-date mb-3">{{ news.published_at.strftime('%B %d, %Y') }}</div>
-                    <img src="{{ url_for('static', filename='uploads/' + news.image_filename) if news.image_filename else url_for('static', filename='images/news-placeholder.jpg') }}"
-                         class="rounded-3 mb-4 w-100" alt="{{ news.title }}"
-                         onerror="this.src='{{ url_for('static', filename='images/news-placeholder.jpg') }}'">
+                    <img src="{{ url_for('static', filename=news.image) }}"
+                         class="rounded-3 mb-4 w-100" alt="{{ news.title }}">
                     <div class="news-content">{{ news.content|replace('\n', '<br>')|safe }}</div>
                 </div>
             </div>

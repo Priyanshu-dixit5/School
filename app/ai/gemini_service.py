@@ -70,26 +70,27 @@ def generate_text(prompt, system_context=''):
     return None, f'AI service error: {last_error or "All models failed."}'
 
 
-SCHOOL_CONTEXT = """
-You are an AI assistant for Excellence Global School, a premium educational institution.
+def _school_context():
+    return f"""
+You are an AI assistant for {current_app.config.get('SCHOOL_NAME', 'Blue Bells Public School')}, a CBSE school.
 School Details:
-- Name: Excellence Global School
-- Tagline: Transforming Education for Tomorrow
+- Name: {current_app.config.get('SCHOOL_NAME', 'Blue Bells Public School')}
+- Tagline: {current_app.config.get('SCHOOL_TAGLINE', 'Love To Learn — Nurturing Minds, Building Futures')}
 - Classes: Nursery to Class 12
 - Board: CBSE
-- Facilities: Smart Classes, Science Labs, Computer Labs, Library, Sports Complex, Swimming Pool, Auditorium, Transport
+- Facilities: Smart Classrooms, Science Labs, Library, Sports Ground, Auditorium, Morning Assembly
 - Timings: 8:00 AM - 2:30 PM (Mon-Fri)
 - Admission Process: Online application, document verification, interaction, confirmation
-- Contact: +91 98765 43210, school@example.com
-- Address: 123 Education Lane, Knowledge City, India
+- Contact: {current_app.config.get('SCHOOL_PHONE', '')}, {current_app.config.get('SCHOOL_EMAIL', '')}
+- Address: {current_app.config.get('SCHOOL_ADDRESS', '')}
 
-Answer questions about admissions, facilities, timings, fees, transport, and faculty professionally and concisely.
+Answer questions about admissions, facilities, timings, scholarships, transport, and faculty professionally and concisely.
 If you don't know specific details, provide general guidance and suggest contacting the school office.
 """
 
 
 def chatbot_response(message, history=None):
-    context = SCHOOL_CONTEXT
+    context = _school_context()
     if history:
         history_text = '\n'.join([f"{h['role']}: {h['content']}" for h in history[-10:]])
         context += f"\n\nConversation history:\n{history_text}"
@@ -98,7 +99,8 @@ def chatbot_response(message, history=None):
 
 
 def admission_assistant(age, class_applying, location):
-    prompt = f"""A parent wants to admit their child to Excellence Global School.
+    school_name = current_app.config.get('SCHOOL_NAME', 'Blue Bells Public School')
+    prompt = f"""A parent wants to admit their child to {school_name}.
 Student Age: {age}
 Class Applying For: {class_applying}
 Location: {location}
@@ -111,7 +113,7 @@ Provide a detailed response covering:
 5. Important dates and tips
 
 Format the response with clear headings and bullet points."""
-    return generate_text(prompt, SCHOOL_CONTEXT)
+    return generate_text(prompt, _school_context())
 
 
 def career_guidance(stream):
@@ -127,7 +129,7 @@ Cover:
 7. Tips for success
 
 Format with clear headings and be encouraging and informative."""
-    return generate_text(prompt, SCHOOL_CONTEXT)
+    return generate_text(prompt, _school_context())
 
 
 def generate_faqs(school_info):
@@ -141,7 +143,7 @@ Q: [Question]
 A: [Answer]
 
 Cover topics like admissions, fees, facilities, academics, transport, and general inquiries."""
-    return generate_text(prompt, SCHOOL_CONTEXT)
+    return generate_text(prompt, _school_context())
 
 
 def summarize_notice(notice):
@@ -157,4 +159,4 @@ Key Points:
 - [point 1]
 - [point 2]
 - [point 3]"""
-    return generate_text(prompt, SCHOOL_CONTEXT)
+    return generate_text(prompt, _school_context())

@@ -6,18 +6,35 @@
 {{ page_header('Academics', [{'label': 'Academics'}]) }}
 <section class="content-section">
     <div class="container">
-        <div class="section-header mb-5" data-aos="fade-up">
-            <span class="section-label">Academic Programs</span>
-            <h2>CBSE Curriculum — Nursery to Class XII</h2>
-            <p>Comprehensive education designed to develop well-rounded individuals.</p>
+        <div class="row g-5 align-items-center mb-5">
+            <div class="col-lg-6" data-aos="fade-right">
+                <img src="{{ url_for('static', filename='images/vision-mission-academics.jpeg') }}" alt="Academics at Blue Bells" class="rounded-4 shadow w-100">
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <span class="section-label">Academic Programs</span>
+                <h2>CBSE Curriculum — Nursery to Class XII</h2>
+                <p class="text-secondary">Comprehensive education designed to develop well-rounded individuals with strong foundations and critical thinking skills.</p>
+            </div>
+        </div>
+        <div class="row g-4 mb-5">
+            <div class="col-md-6" data-aos="fade-up">
+                <img src="{{ url_for('static', filename='images/girl-reading.jpeg') }}" alt="Reading & Learning" class="rounded-4 shadow w-100 mb-3">
+                <h5>Reading & Independent Learning</h5>
+                <p class="text-secondary">We foster a love for reading and self-directed study from early grades.</p>
+            </div>
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <img src="{{ url_for('static', filename='images/student-raising-hand.jpeg') }}" alt="Active Participation" class="rounded-4 shadow w-100 mb-3">
+                <h5>Active Classroom Participation</h5>
+                <p class="text-secondary">Students are encouraged to ask questions, participate, and engage actively in every lesson.</p>
+            </div>
         </div>
         <div class="row g-4">
             {% set programs = [
-                ('Pre-Primary', 'Nursery to UKG', 'Play-based learning with focus on motor skills, language development, and social interaction.', 'bi-emoji-smile'),
-                ('Primary', 'Class I to V', 'Foundation building in core subjects with activity-based learning and creative expression.', 'bi-book'),
-                ('Middle School', 'Class VI to VIII', 'Subject specialization begins with emphasis on analytical thinking and project-based learning.', 'bi-lightbulb'),
-                ('Secondary', 'Class IX to X', 'Board preparation with comprehensive coaching, practical labs, and career orientation.', 'bi-mortarboard'),
-                ('Senior Secondary', 'Class XI to XII', 'Science, Commerce, and Arts streams with expert faculty and competitive exam preparation.', 'bi-graph-up'),
+                ('Pre-Primary', 'Nursery to UKG', 'Play-based learning with focus on motor skills, language, and social interaction.', 'bi-emoji-smile'),
+                ('Primary', 'Class I to V', 'Foundation building in core subjects with activity-based learning.', 'bi-book'),
+                ('Middle School', 'Class VI to VIII', 'Subject specialization with analytical thinking and project-based learning.', 'bi-lightbulb'),
+                ('Secondary', 'Class IX to X', 'Board preparation with practical labs and career orientation.', 'bi-mortarboard'),
+                ('Senior Secondary', 'Class XI to XII', 'Science, Commerce, and Arts streams with expert faculty.', 'bi-graph-up'),
             ] %}
             {% for title, grades, desc, icon in programs %}
             <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">

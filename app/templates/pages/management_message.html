@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Management Message — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Management Message', [{'label': 'Management Message'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="row align-items-start g-5">
+            <div class="col-lg-5 text-center" data-aos="fade-right">
+                <img src="{{ url_for('static', filename='images/management-message.jpeg') }}" alt="Message from Manager and Director" class="rounded-4 shadow w-100">
+            </div>
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="content-card">
+                    <div class="quote-icon text-accent mb-3" style="font-size:3rem;color:var(--accent);opacity:0.5"><i class="bi bi-quote"></i></div>
+                    <p>Dear Parents, Students, and Well-wishers,</p>
+                    <p class="text-secondary">It gives us immense pride to welcome you to {{ school_name }}. Our vision has always been to create an institution where every child discovers their potential and grows with confidence, curiosity, and character.</p>
+                    <p class="text-secondary">We believe education is not just about textbooks — it is about building values, nurturing talent, and preparing young minds for the challenges of tomorrow. At {{ school_name }}, we combine strong academics with sports, culture, and moral education.</p>
+                    <p class="text-secondary">Our dedicated faculty, supportive parents, and enthusiastic students together make {{ school_name }} a place where learning is joyful and achievements are celebrated. We invite you to be part of our growing family.</p>
+                    <p class="fw-bold mt-4">Manager & Director<br><span class="text-secondary fw-normal">{{ school_name }}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

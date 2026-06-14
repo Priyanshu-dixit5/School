@@ -9,21 +9,29 @@
         <div class="row g-5 align-items-center mb-5">
             <div class="col-lg-6" data-aos="fade-right">
                 <span class="section-label">Campus</span>
-                <h2>15-Acre Green Campus</h2>
-                <p class="text-secondary">Our sprawling campus is designed to provide a serene, inspiring environment for learning. Lush green lawns, modern architecture, and thoughtfully planned spaces create the perfect setting for holistic education.</p>
+                <h2>Our School Campus</h2>
+                <p class="text-secondary">Blue Bells Public School offers a well-designed campus with modern academic blocks, open spaces, sports facilities, and a nurturing environment for holistic learning.</p>
             </div>
             <div class="col-lg-6" data-aos="fade-left">
-                <img src="{{ url_for('static', filename='images/infrastructure-campus.jpg') }}" class="rounded-4 shadow w-100" alt="Campus">
+                <img src="{{ url_for('static', filename='images/full-school-poster.jpeg') }}" class="rounded-4 shadow w-100" alt="Blue Bells Campus">
+            </div>
+        </div>
+        <div class="row g-4 mb-5">
+            <div class="col-md-6" data-aos="fade-up">
+                <img src="{{ url_for('static', filename='images/school-tour.jpeg') }}" class="rounded-4 shadow w-100" alt="School Tour">
+            </div>
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <img src="{{ url_for('static', filename='images/normal-poster.jpeg') }}" class="rounded-4 shadow w-100" alt="School Infrastructure">
             </div>
         </div>
         <div class="row g-4">
             {% for item in [
-                ('Academic Blocks', '4 modern academic blocks with 60+ classrooms'),
-                ('Administration', 'Central admin building with reception and counseling center'),
-                ('Cafeteria', 'Hygienic cafeteria serving nutritious meals'),
-                ('Security', '24/7 CCTV surveillance and trained security personnel'),
-                ('Wi-Fi Campus', 'High-speed internet across the entire campus'),
-                ('Solar Power', 'Eco-friendly solar panels reducing carbon footprint'),
+                ('Academic Blocks', 'Modern classrooms equipped for CBSE curriculum'),
+                ('Science & Computer Labs', 'Practical learning with hands-on experiments'),
+                ('Library', 'Reading spaces and learning resources for all ages'),
+                ('Sports Ground', 'Athletics, cricket, and team sports facilities'),
+                ('Auditorium', 'Assemblies, annual functions, and cultural events'),
+                ('Morning Assembly Area', 'Daily prayer and values education'),
             ] %}
             <div class="col-md-6 col-lg-4" data-aos="fade-up">
                 <div class="feature-card"><h5>{{ item[0] }}</h5><p class="mb-0">{{ item[1] }}</p></div>

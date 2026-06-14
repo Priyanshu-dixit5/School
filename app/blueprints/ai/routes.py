@@ -91,37 +91,13 @@ def ai_career_guidance():
 @ai_bp.route('/generate-faqs', methods=['POST'])
 @limiter.limit('5 per minute')
 def ai_generate_faqs():
-    from flask_login import login_required, current_user
-    if not current_user.is_authenticated:
-        return jsonify({'error': 'Authentication required'}), 401
-
-    data = request.get_json()
-    if not data or not data.get('school_info'):
-        return jsonify({'error': 'School information is required'}), 400
-
-    response, error = generate_faqs(data['school_info'])
-    if error:
-        return jsonify({'error': error}), 503
-
-    return jsonify({'response': response})
+    return jsonify({'error': 'This feature is not available.'}), 404
 
 
 @ai_bp.route('/summarize-notice', methods=['POST'])
 @limiter.limit('5 per minute')
 def ai_summarize_notice():
-    from flask_login import login_required, current_user
-    if not current_user.is_authenticated:
-        return jsonify({'error': 'Authentication required'}), 401
-
-    data = request.get_json()
-    if not data or not data.get('notice'):
-        return jsonify({'error': 'Notice content is required'}), 400
-
-    response, error = summarize_notice(data['notice'])
-    if error:
-        return jsonify({'error': error}), 503
-
-    return jsonify({'response': response})
+    return jsonify({'error': 'This feature is not available.'}), 404
 
 
 @ai_bp.route('/history')

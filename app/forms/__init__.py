@@ -13,9 +13,8 @@ class ContactForm(FlaskForm):
     phone = StringField('Phone', validators=[Optional(), Length(max=15)])
     query_type = SelectField('Inquiry Type', choices=[
         ('general', 'General Inquiry'),
-        ('admission', 'Admission Inquiry'),
+        ('admission', 'Admission Information'),
         ('career', 'Career / Job Application'),
-        ('campus_visit', 'Campus Visit'),
         ('feedback', 'Feedback'),
         ('other', 'Other'),
     ], validators=[DataRequired()])

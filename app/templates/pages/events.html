@@ -13,9 +13,7 @@
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
                     <div class="news-card">
                         <div class="news-card-image">
-                            <img src="{{ url_for('static', filename='uploads/' + event.image_filename) if event.image_filename else url_for('static', filename='images/news-placeholder.jpg') }}"
-                                 alt="{{ event.title }}"
-                                 onerror="this.src='{{ url_for('static', filename='images/news-placeholder.jpg') }}'">
+                            <img src="{{ url_for('static', filename=event.image) }}" alt="{{ event.title }}">
                         </div>
                         <div class="news-card-body">
                             <div class="news-date">{{ event.event_date.strftime('%b %d, %Y') }}</div>
@@ -35,10 +33,15 @@
         <div class="row g-4">
             {% for event in past_events %}
             <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                <div class="feature-card">
-                    <div class="news-date">{{ event.event_date.strftime('%b %d, %Y') }}</div>
-                    <h5>{{ event.title }}</h5>
-                    <p class="mb-0">{{ event.description or '' }}</p>
+                <div class="news-card">
+                    <div class="news-card-image">
+                        <img src="{{ url_for('static', filename=event.image) }}" alt="{{ event.title }}">
+                    </div>
+                    <div class="news-card-body">
+                        <div class="news-date">{{ event.event_date.strftime('%b %d, %Y') }}</div>
+                        <h5>{{ event.title }}</h5>
+                        <p class="mb-0">{{ event.description or '' }}</p>
+                    </div>
                 </div>
             </div>
             {% endfor %}

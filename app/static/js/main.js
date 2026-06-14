@@ -1,4 +1,4 @@
-/* Main JavaScript — Excellence Global School */
+/* Main JavaScript — Blue Bells Public School */
 
 document.addEventListener('DOMContentLoaded', () => {
     initNavbar();
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroSwiper();
     initSwiper();
     initGLightbox();
-    initChatWidget();
+    initYouTubeFacade();
     initSmoothScroll();
     initGSAPAnimations();
 
@@ -197,6 +197,42 @@ function initGSAPAnimations() {
     });
 }
 
+/* YouTube click-to-play (shows thumbnail first, loads iframe on click) */
+function initYouTubeFacade() {
+    document.querySelectorAll('.youtube-facade').forEach(facade => {
+        const play = () => activateYouTubeFacade(facade);
+        facade.addEventListener('click', play);
+        facade.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                play();
+            }
+        });
+    });
+}
+
+function activateYouTubeFacade(facade) {
+    if (facade.dataset.loaded === 'true') return;
+
+    const embedUrl = facade.dataset.embedUrl;
+    if (!embedUrl) return;
+
+    facade.dataset.loaded = 'true';
+    facade.style.cursor = 'default';
+    facade.removeAttribute('tabindex');
+    facade.removeAttribute('role');
+
+    const iframe = document.createElement('iframe');
+    iframe.src = embedUrl;
+    iframe.title = facade.querySelector('img')?.alt || 'School video';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;';
+
+    facade.innerHTML = '';
+    facade.appendChild(iframe);
+}
+
 /* Smooth Scroll */
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -209,116 +245,3 @@ function initSmoothScroll() {
         });
     });
 }
-
-/* Chat Widget */
-function initChatWidget() {
-    const toggle = document.getElementById('chatToggle');
-    const panel = document.getElementById('chatPanel');
-    const close = document.getElementById('chatClose');
-    const input = document.getElementById('chatInput');
-    const send = document.getElementById('chatSend');
-    const messages = document.getElementById('chatMessages');
-    const typing = document.getElementById('chatTyping');
-
-    if (!toggle || !panel) return;
-
-    toggle.addEventListener('click', () => panel.classList.toggle('active'));
-    close?.addEventListener('click', () => panel.classList.remove('active'));
-
-    async function sendMessage() {
-        const text = input.value.trim();
-        if (!text) return;
-
-        appendMessage('user', text);
-        input.value = '';
-        send.disabled = true;
-        typing.style.display = 'flex';
-
-        try {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
-                || document.querySelector('input[name="csrf_token"]')?.value;
-
-            const res = await fetch('/ai/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken || '',
-                },
-                body: JSON.stringify({ message: text }),
-            });
-
-            const data = await res.json();
-            typing.style.display = 'none';
-
-            if (data.response) {
-                appendMessage('bot', data.response);
-            } else {
-                appendMessage('bot', data.error || 'Sorry, I could not process your request.');
-            }
-        } catch (err) {
-            typing.style.display = 'none';
-            appendMessage('bot', 'Connection error. Please try again.');
-        }
-
-        send.disabled = false;
-        input.focus();
-    }
-
-    function appendMessage(role, text) {
-        const div = document.createElement('div');
-        div.className = `chat-message ${role}`;
-        div.innerHTML = `<div class="message-bubble">${escapeHtml(text)}</div>`;
-        messages.appendChild(div);
-        messages.scrollTop = messages.scrollHeight;
-    }
-
-    send?.addEventListener('click', sendMessage);
-    input?.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendMessage();
-    });
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML.replace(/\n/g, '<br>');
-}
-
-/* AI Feature Helper */
-async function callAI(endpoint, payload, responseEl, loadingEl) {
-    if (loadingEl) loadingEl.style.display = 'flex';
-    if (responseEl) responseEl.style.display = 'none';
-
-    try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
-            || document.querySelector('input[name="csrf_token"]')?.value;
-
-        const res = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken || '',
-            },
-            body: JSON.stringify(payload),
-        });
-
-        const data = await res.json();
-        if (loadingEl) loadingEl.style.display = 'none';
-
-        if (data.response && responseEl) {
-            responseEl.textContent = data.response;
-            responseEl.style.display = 'block';
-        } else if (responseEl) {
-            responseEl.textContent = data.error || 'An error occurred.';
-            responseEl.style.display = 'block';
-        }
-    } catch (err) {
-        if (loadingEl) loadingEl.style.display = 'none';
-        if (responseEl) {
-            responseEl.textContent = 'Connection error. Please try again.';
-            responseEl.style.display = 'block';
-        }
-    }
-}
-
-window.callAI = callAI;

@@ -3,16 +3,14 @@
         <div class="row g-4">
             <div class="col-lg-4">
                 <div class="footer-brand">
-                    <span class="brand-icon"><i class="bi bi-mortarboard-fill"></i></span>
+                    <img src="{{ url_for('static', filename=site_logo) }}" alt="{{ school_name }} logo" class="footer-logo">
                     <h5>{{ school_name }}</h5>
                 </div>
-                <p class="footer-desc">{{ school_tagline }}. Empowering future leaders through excellence in education.</p>
+                <p class="footer-desc">{{ school_tagline }}. Quality CBSE education in Atraulia, Azamgarh.</p>
                 <div class="social-links">
+                    <a href="{{ youtube_watch_url }}" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
                     <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
                     <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
                 </div>
             </div>
             <div class="col-lg-2 col-md-4">
@@ -22,7 +20,7 @@
                     <li><a href="{{ url_for('main.academics') }}">Academics</a></li>
                     <li><a href="{{ url_for('main.admissions') }}">Admissions</a></li>
                     <li><a href="{{ url_for('main.gallery') }}">Gallery</a></li>
-                    <li><a href="{{ url_for('main.careers') }}">Careers</a></li>
+                    <li><a href="{{ url_for('main.faculty') }}">Faculty</a></li>
                 </ul>
             </div>
             <div class="col-lg-2 col-md-4">
@@ -31,7 +29,7 @@
                     <li><a href="{{ url_for('main.events') }}">Events</a></li>
                     <li><a href="{{ url_for('main.news_list') }}">News</a></li>
                     <li><a href="{{ url_for('main.faq') }}">FAQ</a></li>
-                    <li><a href="{{ url_for('main.ai_assistant') }}">AI Assistant</a></li>
+                    <li><a href="{{ admission_portal_url }}" target="_blank" rel="noopener">Apply Online</a></li>
                     <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
                 </ul>
             </div>
@@ -42,9 +40,11 @@
                     <li><i class="bi bi-telephone"></i> {{ school_phone }}</li>
                     <li><i class="bi bi-envelope"></i> {{ school_email }}</li>
                 </ul>
-                <div class="footer-map mt-3">
-                    <iframe src="https://maps.google.com/maps?q=Delhi%20India&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                            width="100%" height="150" style="border:0;border-radius:18px;" allowfullscreen loading="lazy"></iframe>
+                <div class="footer-qr mt-3">
+                    <a href="{{ admission_portal_url }}" target="_blank" rel="noopener" title="Open admission portal">
+                        <img src="{{ url_for('static', filename='images/admission-qr.jpeg') }}" alt="Admission Query QR Code" class="footer-qr-img">
+                    </a>
+                    <small class="text-white-50 d-block mt-2">Scan or click for admission queries</small>
                 </div>
             </div>
         </div>

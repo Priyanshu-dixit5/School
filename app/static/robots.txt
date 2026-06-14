@@ -1,7 +1,2 @@
 User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /ai/generate-faqs
-Disallow: /ai/summarize-notice
-
-Sitemap: /sitemap.xml

@@ -8,10 +8,10 @@
     <div class="container">
         <div class="timeline">
             {% for step in [
-                ('Step 1', 'Online Application', 'Fill out the online admission form with student and parent details. Upload required documents and photo.'),
-                ('Step 2', 'Document Verification', 'Submit original documents at the school office for verification within 7 days of application.'),
-                ('Step 3', 'Student Interaction', 'Attend a brief interaction session with our academic team to assess readiness and discuss expectations.'),
-                ('Step 4', 'Admission Confirmation', 'Upon selection, complete fee payment and receive official admission confirmation with student ID.'),
+                ('Step 1', 'Online Application', 'Apply through the official admission portal at bluebellsschool.teachmint.institute/admission or scan the QR code on our website.'),
+                ('Step 2', 'Document Verification', 'Submit original documents at the school office in Atraulia, Azamgarh for verification.'),
+                ('Step 3', 'Student Interaction', 'Attend a brief interaction session with our academic team.'),
+                ('Step 4', 'Admission Confirmation', 'Upon selection, complete fee payment and receive official admission confirmation.'),
             ] %}
             <div class="timeline-item" data-aos="fade-up">
                 <div class="timeline-dot"></div>
@@ -24,7 +24,9 @@
             {% endfor %}
         </div>
         <div class="text-center mt-5">
-            <a href="{{ url_for('main.apply_online') }}" class="btn btn-accent btn-lg">Start Application</a>
+            <a href="{{ admission_portal_url }}" target="_blank" rel="noopener" class="btn btn-accent btn-lg">
+                <i class="bi bi-box-arrow-up-right me-2"></i>Start Application
+            </a>
         </div>
     </div>
 </section>

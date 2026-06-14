@@ -11,14 +11,13 @@
         <div class="section-header text-start mb-4" data-aos="fade-up">
             <span class="section-label">Best Moments</span>
             <h2>Featured Highlights</h2>
-            <p class="text-secondary mb-0">Our finest campus moments — celebrations, learning, and student life.</p>
+            <p class="text-secondary mb-0">Celebrations, learning, sports, and achievements at Blue Bells.</p>
         </div>
         <div class="featured-gallery-row" data-aos="fade-up">
             {% for item in featured_items %}
-            <a href="{{ url_for('static', filename='uploads/' + item.image_filename) }}"
+            <a href="{{ url_for('static', filename=item.image) }}"
                class="featured-gallery-card glightbox" title="{{ item.title }}">
-                <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}" alt="{{ item.title }}"
-                     onerror="this.src='{{ url_for('static', filename='images/gallery-' ~ ((loop.index0 % 12) + 1) ~ '.jpg') }}'">
+                <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.title }}">
                 <div class="featured-gallery-label">
                     <span>{{ item.title }}</span>
                     <i class="bi bi-zoom-in"></i>
@@ -45,23 +44,13 @@
         </div>
         {% endif %}
         <div class="gallery-grid" id="galleryGrid">
-            {% if gallery_items %}
-                {% for item in gallery_items %}
-                <a href="{{ url_for('static', filename='uploads/' + item.image_filename) }}"
-                   class="gallery-item glightbox" data-category="{{ item.category }}" data-aos="fade-up" title="{{ item.title }}">
-                    <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}" alt="{{ item.title }}"
-                         onerror="this.src='{{ url_for('static', filename='images/gallery-' ~ ((loop.index0 % 12) + 1) ~ '.jpg') }}'">
-                    <div class="gallery-item-overlay"><i class="bi bi-zoom-in"></i></div>
-                </a>
-                {% endfor %}
-            {% else %}
-                {% for i in range(1, 13) %}
-                <a href="{{ url_for('static', filename='images/gallery-' ~ i ~ '.jpg') }}" class="gallery-item glightbox" data-aos="fade-up">
-                    <img src="{{ url_for('static', filename='images/gallery-' ~ i ~ '.jpg') }}" alt="Campus Life">
-                    <div class="gallery-item-overlay"><i class="bi bi-zoom-in"></i></div>
-                </a>
-                {% endfor %}
-            {% endif %}
+            {% for item in gallery_items %}
+            <a href="{{ url_for('static', filename=item.image) }}"
+               class="gallery-item glightbox" data-category="{{ item.category }}" data-aos="fade-up" title="{{ item.title }}">
+                <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.title }}">
+                <div class="gallery-item-overlay"><i class="bi bi-zoom-in"></i></div>
+            </a>
+            {% endfor %}
         </div>
     </div>
 </section>

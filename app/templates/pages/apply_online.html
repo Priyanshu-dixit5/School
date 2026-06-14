@@ -6,80 +6,33 @@
 {{ page_header('Apply Online', [{'label': 'Admissions', 'url': url_for('main.admissions')}, {'label': 'Apply Online'}]) }}
 <section class="content-section">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8" data-aos="fade-up">
-                <div class="content-card">
-                    <h3 class="mb-4">Online Admission Form</h3>
-                    {% if form.errors %}
-                    <div class="alert alert-danger">
-                        <strong>Please fix the following errors:</strong>
-                        <ul class="mb-0 mt-2">
-                        {% for field, errors in form.errors.items() %}
-                            {% for error in errors %}
-                            <li>{{ form[field].label.text if form[field].label else field }}: {{ error }}</li>
-                            {% endfor %}
-                        {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-                    <form method="POST" enctype="multipart/form-data">
-                        {{ form.hidden_tag() }}
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">{{ form.student_name.label }}</label>
-                                {{ form.student_name(class="form-control" + (" is-invalid" if form.student_name.errors else "")) }}
-                                {% for e in form.student_name.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">{{ form.dob.label }}</label>
-                                {{ form.dob(class="form-control" + (" is-invalid" if form.dob.errors else ""), type="date") }}
-                                {% for e in form.dob.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">{{ form.gender.label }}</label>
-                                {{ form.gender(class="form-select") }}
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">{{ form.father_name.label }}</label>
-                                {{ form.father_name(class="form-control" + (" is-invalid" if form.father_name.errors else "")) }}
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">{{ form.mother_name.label }}</label>
-                                {{ form.mother_name(class="form-control" + (" is-invalid" if form.mother_name.errors else "")) }}
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">{{ form.phone.label }}</label>
-                                {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else "")) }}
-                                {% for e in form.phone.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">{{ form.email.label }}</label>
-                                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
-                                {% for e in form.email.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">{{ form.address.label }}</label>
-                                {{ form.address(class="form-control" + (" is-invalid" if form.address.errors else ""), rows=3) }}
-                                {% for e in form.address.errors %}<div class="invalid-feedback d-block">{{ e }}</div>{% endfor %}
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">{{ form.previous_school.label }}</label>
-                                {{ form.previous_school(class="form-control") }}
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">{{ form.class_applying.label }}</label>
-                                {{ form.class_applying(class="form-select") }}
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">{{ form.photo.label }}</label>
-                                {{ form.photo(class="form-control", accept="image/*") }}
-                                <small class="text-secondary">Max 5MB. JPG, PNG, GIF, WEBP</small>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-accent btn-lg w-100">Submit Application</button>
+        <div class="row justify-content-center g-5">
+            <div class="col-lg-10" data-aos="fade-up">
+                <div class="content-card text-center admission-portal-card">
+                    <span class="section-label">Official Admission Portal</span>
+                    <h2 class="mb-3">Apply to {{ school_name }}</h2>
+                    <p class="text-secondary mb-4">Admissions are handled through our official online portal. Scan the QR code below or click the button to open the admission page directly.</p>
+
+                    <div class="row g-4 align-items-center justify-content-center mb-4">
+                        <div class="col-md-5">
+                            <img src="{{ url_for('static', filename='images/admission-qr.jpeg') }}" alt="Admission Query QR Code" class="admission-qr-img rounded-4 shadow">
+                            <p class="text-secondary small mt-3 mb-0">Scan for admission queries</p>
+                        </div>
+                        <div class="col-md-5 text-start">
+                            <div class="feature-card h-100">
+                                <h5><i class="bi bi-box-arrow-up-right text-accent me-2"></i>Online Application</h5>
+                                <p class="text-secondary">Complete your child's admission application on the official Teachmint portal.</p>
+                                <a href="{{ admission_portal_url }}" target="_blank" rel="noopener" class="btn btn-accent btn-lg w-100">
+                                    Open Admission Portal
+                                </a>
+                                <p class="text-secondary small mt-3 mb-0">
+                                    <a href="{{ admission_portal_url }}" target="_blank" rel="noopener" class="text-break">{{ admission_portal_url }}</a>
+                                </p>
                             </div>
                         </div>
-                    </form>
+                    </div>
+
+                    <img src="{{ url_for('static', filename='images/admission-poster.jpeg') }}" alt="Admissions Open" class="rounded-4 shadow poster-img mx-auto mt-2">
                 </div>
             </div>
         </div>

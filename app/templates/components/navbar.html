@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-animate" id="mainNavbar">
     <div class="container">
         <a class="navbar-brand nav-brand-animate" href="{{ url_for('main.home') }}">
-            <span class="brand-icon"><i class="bi bi-mortarboard-fill"></i></span>
+            <img src="{{ url_for('static', filename=site_logo) }}" alt="{{ school_name }} logo" class="brand-logo">
             <span class="brand-text">{{ school_name }}</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
@@ -14,8 +14,8 @@
                     <ul class="dropdown-menu dropdown-menu-animate">
                         <li><a class="dropdown-item" href="{{ url_for('main.about') }}"><i class="bi bi-info-circle me-2"></i>About Us</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('main.vision_mission') }}"><i class="bi bi-eye me-2"></i>Vision & Mission</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('main.chairman_message') }}"><i class="bi bi-person-badge me-2"></i>Chairman's Message</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('main.principal_message') }}"><i class="bi bi-person-workspace me-2"></i>Principal's Message</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.management_message') }}"><i class="bi bi-person-badge me-2"></i>Management Message</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.faculty') }}"><i class="bi bi-people me-2"></i>Our Faculty</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown nav-dropdown-animate">
@@ -34,14 +34,13 @@
                     <ul class="dropdown-menu dropdown-menu-animate">
                         <li><a class="dropdown-item" href="{{ url_for('main.admissions') }}"><i class="bi bi-door-open me-2"></i>Overview</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('main.admission_process') }}"><i class="bi bi-list-check me-2"></i>Process</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('main.apply_online') }}"><i class="bi bi-pencil-square me-2"></i>Apply Online</a></li>
+                        <li><a class="dropdown-item" href="{{ admission_portal_url }}" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right me-2"></i>Apply Online</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('main.faq') }}"><i class="bi bi-question-circle me-2"></i>FAQ</a></li>
                     </ul>
                 </li>
-                <li class="nav-item nav-link-animate"><a class="nav-link" href="{{ url_for('main.ai_assistant') }}">AI Assistant</a></li>
                 <li class="nav-item nav-link-animate"><a class="nav-link" href="{{ url_for('main.contact') }}">Contact</a></li>
                 <li class="nav-item ms-lg-2 nav-link-animate">
-                    <a class="btn btn-accent btn-sm nav-cta-btn" href="{{ url_for('main.apply_online') }}">Apply Now</a>
+                    <a class="btn btn-accent btn-sm nav-cta-btn" href="{{ admission_portal_url }}" target="_blank" rel="noopener">Apply Now</a>
                 </li>
             </ul>
         </div>

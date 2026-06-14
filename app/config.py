@@ -39,10 +39,22 @@ class Config:
     RATELIMIT_STORAGE_URI = os.environ.get('RATELIMIT_STORAGE_URI', 'memory://')
 
     # School info
-    SCHOOL_NAME = os.environ.get('SCHOOL_NAME', 'Excellence Global School')
-    SCHOOL_TAGLINE = os.environ.get('SCHOOL_TAGLINE', 'Transforming Education for Tomorrow')
+    SCHOOL_NAME = os.environ.get('SCHOOL_NAME', 'Blue Bells Public School')
+    SCHOOL_TAGLINE = os.environ.get('SCHOOL_TAGLINE', 'Love To Learn — Nurturing Minds, Building Futures')
     SCHOOL_PHONE = os.environ.get('SCHOOL_PHONE', '+91 98765 43210')
-    SCHOOL_ADDRESS = os.environ.get('SCHOOL_ADDRESS', '123 Education Lane, Knowledge City, India 110001')
+    SCHOOL_ADDRESS = os.environ.get(
+        'SCHOOL_ADDRESS',
+        'Blue Bells Public School, Atraulia, Azamgarh, Uttar Pradesh - 223223'
+    )
+    ADMISSION_PORTAL_URL = os.environ.get(
+        'ADMISSION_PORTAL_URL',
+        'https://bluebellsschool.teachmint.institute/admission'
+    )
+    YOUTUBE_VIDEO_ID = os.environ.get('YOUTUBE_VIDEO_ID', '-M0whDANAxs')
+    MAP_EMBED_QUERY = os.environ.get(
+        'MAP_EMBED_QUERY',
+        'Blue+Bells+Public+School+Atraulia+Azamgarh+223223'
+    )
 
 
 class DevelopmentConfig(Config):
