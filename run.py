@@ -1,3 +1,4 @@
+"""Local development server only. Production uses: gunicorn wsgi:app --config gunicorn.conf.py"""
 import os
 import sys
 from dotenv import load_dotenv
@@ -11,7 +12,6 @@ app = create_app(os.environ.get('FLASK_ENV', 'development'))
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    # On Windows, eventlet + debug reloader causes port-in-use errors (WinError 10048).
     use_reloader = app.debug and sys.platform != 'win32'
     socketio.run(
         app,

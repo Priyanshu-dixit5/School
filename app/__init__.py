@@ -32,10 +32,9 @@ def create_app(config_name=None):
         from app.models.user import User
         return User.query.get(int(user_id))
 
-    async_mode = os.environ.get(
-        'SOCKETIO_ASYNC_MODE',
-        'threading' if os.name == 'nt' else 'eventlet',
-    )
+    # threading works on all platforms (Windows dev + Render/Linux production).
+    # eventlet is incompatible with Python 3.12+ and breaks Gunicorn on Render.
+    async_mode = os.environ.get('SOCKETIO_ASYNC_MODE', 'threading')
     socketio.init_app(app, async_mode=async_mode)
 
     from app.blueprints.main import main_bp
