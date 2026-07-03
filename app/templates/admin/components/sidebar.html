@@ -1,0 +1,22 @@
+<aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-sidebar-brand">
+        <h5><i class="bi bi-briefcase-fill me-2"></i>Admin Panel</h5>
+        <small>{{ school_name }}</small>
+    </div>
+    <ul class="admin-nav">
+        <li><a href="{{ url_for('admin.dashboard') }}" class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li><a href="{{ url_for('admin.jobs_list') }}" class="{% if 'jobs' in (request.endpoint or '') %}active{% endif %}"><i class="bi bi-briefcase"></i> Jobs</a></li>
+        <li><a href="{{ url_for('admin.applications_list') }}" class="{% if 'applications' in (request.endpoint or '') %}active{% endif %}"><i class="bi bi-file-earmark-person"></i> Applications <span class="badge bg-danger ms-auto" id="appBadge"></span></a></li>
+        <li><a href="{{ url_for('admin.queries_list') }}" class="{% if 'queries' in (request.endpoint or '') %}active{% endif %}"><i class="bi bi-chat-dots"></i> Queries <span class="badge bg-warning text-dark ms-auto" id="queryBadge"></span></a></li>
+        <li><a href="{{ url_for('admin.categories_list') }}" class="{% if 'categories' in (request.endpoint or '') %}active{% endif %}"><i class="bi bi-tags"></i> Categories</a></li>
+        <li><a href="{{ url_for('admin.companies_list') }}" class="{% if 'companies' in (request.endpoint or '') %}active{% endif %}"><i class="bi bi-building"></i> Companies</a></li>
+        <li><a href="{{ url_for('admin.media_library') }}" class="{% if request.endpoint == 'admin.media_library' %}active{% endif %}"><i class="bi bi-collection"></i> Media Library</a></li>
+        <li><a href="{{ url_for('admin.images_list') }}" class="{% if 'images' in (request.endpoint or '') %}active{% endif %}"><i class="bi bi-images"></i> Images</a></li>
+        <li><a href="{{ url_for('admin.banner_list') }}" class="{% if 'banner' in (request.endpoint or '') %}active{% endif %}"><i class="bi bi-image"></i> Banners</a></li>
+        <li><a href="{{ url_for('admin.analytics') }}" class="{% if request.endpoint == 'admin.analytics' %}active{% endif %}"><i class="bi bi-graph-up"></i> Analytics</a></li>
+        <li><a href="{{ url_for('admin.users_list') }}" class="{% if 'users' in (request.endpoint or '') %}active{% endif %}"><i class="bi bi-people"></i> Users</a></li>
+        <li><a href="{{ url_for('admin.settings') }}" class="{% if request.endpoint == 'admin.settings' %}active{% endif %}"><i class="bi bi-gear"></i> Site Settings</a></li>
+        <li><a href="{{ url_for('admin.profile') }}" class="{% if request.endpoint == 'admin.profile' %}active{% endif %}"><i class="bi bi-person"></i> Profile</a></li>
+        <li class="mt-3"><a href="{{ url_for('main.home') }}" target="_blank"><i class="bi bi-box-arrow-up-right"></i> View Website</a></li>
+    </ul>
+</aside>

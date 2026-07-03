@@ -21,8 +21,20 @@ class Config:
 
     # Uploads
     UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static', 'uploads')
-    MAX_CONTENT_LENGTH = 5 * 1024 * 1024  # 5MB
-    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+    MAX_CONTENT_LENGTH = 10 * 1024 * 1024  # 10MB
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'pdf', 'doc', 'docx'}
+    ALLOWED_RESUME_EXTENSIONS = {'pdf', 'doc', 'docx'}
+
+    # Cloudinary
+    CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', '')
+    CLOUDINARY_API_KEY = os.environ.get('CLOUDINARY_API_KEY', '')
+    CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET', '')
+    CLOUDINARY_FOLDER = os.environ.get('CLOUDINARY_FOLDER', 'job-portal')
+
+    # JWT
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', SECRET_KEY)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=7)
 
     # Gemini AI
     GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
@@ -38,7 +50,7 @@ class Config:
     RATELIMIT_DEFAULT = '200 per day;50 per hour'
     RATELIMIT_STORAGE_URI = os.environ.get('RATELIMIT_STORAGE_URI', 'memory://')
 
-    # School info
+    # School / Site info
     SCHOOL_NAME = os.environ.get('SCHOOL_NAME', 'Blue Bells Public School')
     SCHOOL_TAGLINE = os.environ.get('SCHOOL_TAGLINE', 'Love To Learn — Nurturing Minds, Building Futures')
     SCHOOL_PHONE = os.environ.get('SCHOOL_PHONE', '+91 98765 43210')
@@ -56,13 +68,18 @@ class Config:
         'Blue+Bells+Public+School+Atraulia+Azamgarh+223223'
     )
 
+    # Socket.IO
+    SOCKETIO_MESSAGE_QUEUE = os.environ.get('SOCKETIO_MESSAGE_QUEUE', None)
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    TALISMAN_FORCE_HTTPS = False
 
 
 class ProductionConfig(Config):
     DEBUG = False
+    TALISMAN_FORCE_HTTPS = True
 
 
 config = {

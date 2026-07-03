@@ -59,3 +59,29 @@ QUERY_TYPE_LABELS = {
 
 def query_type_label(query_type):
     return QUERY_TYPE_LABELS.get(query_type, query_type.replace('_', ' ').title())
+
+
+def whatsapp_url(phone, message):
+    if not phone:
+        return None
+    cleaned = re.sub(r'[^\d]', '', phone)
+    if cleaned.startswith('0'):
+        cleaned = cleaned[1:]
+    if len(cleaned) == 10:
+        cleaned = '91' + cleaned
+    from urllib.parse import quote
+    return f'https://wa.me/{cleaned}?text={quote(message)}'
+
+
+def parse_date(value):
+    if not value:
+        return None
+    if hasattr(value, 'isoformat'):
+        return value
+    from datetime import datetime
+    for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%m/%d/%Y'):
+        try:
+            return datetime.strptime(str(value), fmt).date()
+        except ValueError:
+            continue
+    return None

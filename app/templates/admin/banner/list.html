@@ -1,0 +1,51 @@
+{% extends 'admin/base.html' %}
+{% block title %}Banner Management{% endblock %}
+{% block content %}
+<div class="admin-header"><div><h2>Banner Management</h2></div></div>
+<div class="row g-4 mb-4">
+    <div class="col-lg-4">
+        <div class="admin-card">
+            <div class="admin-card-header"><h5>Upload Banner</h5></div>
+            <div class="admin-card-body">
+                <form method="POST" action="{{ url_for('admin.banner_upload') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3"><label class="form-label">Title</label><input type="text" name="title" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label">Link URL</label><input type="url" name="link_url" class="form-control"></div>
+                    <div class="mb-3"><label class="form-label">Position</label><select name="position" class="form-select"><option value="hero">Hero</option><option value="sidebar">Sidebar</option></select></div>
+                    <div class="mb-3"><div class="form-check"><input type="checkbox" name="is_active" class="form-check-input" checked><label class="form-check-label">Active</label></div></div>
+                    <div class="mb-3"><label class="form-label">Image</label><input type="file" name="image" class="form-control" accept="image/*" required></div>
+                    <button type="submit" class="btn btn-primary w-100">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="row g-3">
+            {% for banner in banners %}
+            <div class="col-12">
+                <div class="admin-card">
+                    <div class="admin-card-body d-flex gap-3 align-items-center">
+                        <img src="{{ banner.image_url }}" style="max-height:100px;border-radius:8px">
+                        <div class="flex-grow-1">
+                            <h6>{{ banner.title }}</h6>
+                            <p class="small text-secondary mb-0">{{ banner.position }} · {% if banner.is_active %}Active{% else %}Inactive{% endif %}</p>
+                        </div>
+                        <form method="POST" action="{{ url_for('admin.banner_replace', banner_id=banner.id) }}" enctype="multipart/form-data" class="d-flex gap-2">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="file" name="image" class="form-control form-control-sm" accept="image/*">
+                            <button class="btn btn-sm btn-outline-primary">Replace</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('admin.banner_delete', banner_id=banner.id) }}" onsubmit="return confirm('Delete?')">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center text-secondary py-5">No banners</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

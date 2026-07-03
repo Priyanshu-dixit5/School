@@ -1,0 +1,58 @@
+{% extends 'admin/base.html' %}
+{% block title %}Categories{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div><h2>Categories</h2></div>
+</div>
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="admin-card">
+            <div class="admin-card-header"><h5>Add Category</h5></div>
+            <div class="admin-card-body">
+                <form method="POST" action="{{ url_for('admin.categories_create') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3"><label class="form-label">Name</label><input type="text" name="name" class="form-control" required></div>
+                    <div class="mb-3"><label class="form-label">Description</label><textarea name="description" class="form-control" rows="2"></textarea></div>
+                    <button type="submit" class="btn btn-primary w-100">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="admin-table">
+            <table class="table table-hover mb-0">
+                <thead><tr><th>Name</th><th>Jobs</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                {% for cat in categories %}
+                <tr>
+                    <td><strong>{{ cat.name }}</strong></td>
+                    <td>{{ cat.jobs.filter_by(deleted_at=None).count() }}</td>
+                    <td><span class="badge {% if cat.is_enabled %}bg-success{% else %}bg-secondary{% endif %}">{{ 'Enabled' if cat.is_enabled else 'Disabled' }}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#editCat{{ cat.id }}"><i class="bi bi-pencil"></i></button>
+                        <form method="POST" action="{{ url_for('admin.categories_delete', cat_id=cat.id) }}" class="d-inline" onsubmit="return confirm('Delete?')">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                <tr class="collapse" id="editCat{{ cat.id }}">
+                    <td colspan="4">
+                        <form method="POST" action="{{ url_for('admin.categories_edit', cat_id=cat.id) }}" class="p-3 bg-light rounded">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <div class="row g-2">
+                                <div class="col-md-4"><input type="text" name="name" class="form-control" value="{{ cat.name }}"></div>
+                                <div class="col-md-4"><input type="number" name="sort_order" class="form-control" value="{{ cat.sort_order }}"></div>
+                                <div class="col-md-2"><div class="form-check mt-2"><input type="checkbox" name="is_enabled" class="form-check-input" {% if cat.is_enabled %}checked{% endif %}><label class="form-check-label">Enabled</label></div></div>
+                                <div class="col-md-2"><button class="btn btn-primary w-100">Save</button></div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}{{ job.title }} — Careers — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header(job.title, [{'label': 'Careers', 'url': url_for('main.careers')}, {'label': job.title}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8" data-aos="fade-right">
+                <div class="content-card">
+                    {% if job.banner_url %}
+                    <img src="{{ job.banner_url }}" alt="{{ job.title }}" class="rounded-4 w-100 mb-4" style="max-height:300px;object-fit:cover">
+                    {% endif %}
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        <span class="badge bg-primary">{{ job.job_type|replace('-',' ')|title }}</span>
+                        {% if job.category %}<span class="badge bg-secondary">{{ job.category.name }}</span>{% endif %}
+                        {% if job.openings %}<span class="badge bg-info text-dark">{{ job.openings }} Opening{{ 's' if job.openings > 1 else '' }}</span>{% endif %}
+                    </div>
+                    <h2 class="mb-4">{{ job.title }}</h2>
+                    <div class="job-meta-grid mb-4">
+                        {% if job.company %}<div><i class="bi bi-building"></i> {{ job.company.name }}</div>{% endif %}
+                        {% if job.location %}<div><i class="bi bi-geo-alt"></i> {{ job.location }}</div>{% endif %}
+                        {% if job.salary %}<div><i class="bi bi-currency-rupee"></i> {{ job.salary }}</div>{% endif %}
+                        {% if job.experience %}<div><i class="bi bi-briefcase"></i> {{ job.experience }}</div>{% endif %}
+                        {% if job.deadline %}<div><i class="bi bi-calendar"></i> Deadline: {{ job.deadline.strftime('%b %d, %Y') }}</div>{% endif %}
+                    </div>
+                    <h5>Description</h5>
+                    <p class="text-secondary">{{ job.description }}</p>
+                    {% if job.requirements %}
+                    <h5 class="mt-4">Requirements</h5>
+                    <p class="text-secondary">{{ job.requirements }}</p>
+                    {% endif %}
+                    {% if job.benefits %}
+                    <h5 class="mt-4">Benefits</h5>
+                    <p class="text-secondary">{{ job.benefits }}</p>
+                    {% endif %}
+                    {% if job.skills %}
+                    <h5 class="mt-4">Skills</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for skill in job.skills.split(',') %}
+                        <span class="badge bg-light text-dark">{{ skill.strip() }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-4" data-aos="fade-left">
+                <div class="content-card sticky-top" style="top:100px">
+                    {% if job.company and job.company.logo_url %}
+                    <img src="{{ job.company.logo_url }}" alt="{{ job.company.name }}" class="mb-3" style="max-height:60px">
+                    {% endif %}
+                    <h5>Ready to Apply?</h5>
+                    <p class="text-secondary">Submit your application with resume and cover letter.</p>
+                    <a href="{{ url_for('main.job_apply', slug=job.slug) }}" class="btn btn-apply-now btn-lg w-100 mb-3">
+                        <i class="bi bi-send me-2"></i>Apply Now
+                    </a>
+                    <a href="{{ url_for('main.careers') }}" class="btn btn-outline-secondary w-100">View All Jobs</a>
+                </div>
+                {% if related_jobs %}
+                <div class="content-card mt-4">
+                    <h6>Related Positions</h6>
+                    {% for rj in related_jobs %}
+                    <a href="{{ url_for('main.job_detail', slug=rj.slug) }}" class="d-block py-2 text-decoration-none border-bottom">
+                        {{ rj.title }} <i class="bi bi-arrow-right float-end"></i>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

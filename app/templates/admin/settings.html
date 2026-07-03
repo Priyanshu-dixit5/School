@@ -1,0 +1,118 @@
+{% extends 'admin/base.html' %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h2>Site Settings</h2>
+        <p class="text-secondary mb-0">Changes here update the live website immediately — name, phone, address, logo, and more.</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="admin-card">
+            <div class="admin-card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="row g-4">
+                        <div class="col-12"><h5 class="border-bottom pb-2">General Information</h5></div>
+                        <div class="col-md-6">
+                            <label class="form-label">Website Name</label>
+                            <input type="text" name="site_name" class="form-control" value="{{ settings.get('site_name', '') }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Tagline</label>
+                            <input type="text" name="site_tagline" class="form-control" value="{{ settings.get('site_tagline', '') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Site Logo</label>
+                            <input type="file" name="site_logo" class="form-control" accept="image/*">
+                            <small class="text-secondary">Upload a new logo to replace the current one.</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Footer Text</label>
+                            <textarea name="footer_text" class="form-control" rows="2">{{ settings.get('footer_text', '') }}</textarea>
+                        </div>
+
+                        <div class="col-12 mt-2"><h5 class="border-bottom pb-2">Contact Details <small class="text-secondary">(shown on Contact page &amp; footer)</small></h5></div>
+                        <div class="col-md-6">
+                            <label class="form-label">Contact Email</label>
+                            <input type="email" name="contact_email" class="form-control" value="{{ settings.get('contact_email', '') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" name="contact_phone" class="form-control" value="{{ settings.get('contact_phone', '') }}" placeholder="+91 XXXXX XXXXX">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Address</label>
+                            <textarea name="contact_address" class="form-control" rows="2">{{ settings.get('contact_address', '') }}</textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Admission Portal URL</label>
+                            <input type="url" name="admission_portal_url" class="form-control" value="{{ settings.get('admission_portal_url', '') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Map Embed Query</label>
+                            <input type="text" name="map_embed_query" class="form-control" value="{{ settings.get('map_embed_query', '') }}" placeholder="School+Name+City">
+                            <small class="text-secondary">Used for Google Maps on Contact page.</small>
+                        </div>
+
+                        <div class="col-12 mt-2"><h5 class="border-bottom pb-2">Social &amp; Media</h5></div>
+                        <div class="col-md-6">
+                            <label class="form-label">YouTube Video ID</label>
+                            <input type="text" name="youtube_video_id" class="form-control" value="{{ settings.get('youtube_video_id', '') }}" placeholder="-M0whDANAxs">
+                        </div>
+                        {% for s in ['facebook','twitter','instagram','linkedin','youtube'] %}
+                        <div class="col-md-6">
+                            <label class="form-label">{{ s|title }} URL</label>
+                            <input type="url" name="social_{{ s }}" class="form-control" value="{{ settings.get('social_' + s, '') }}">
+                        </div>
+                        {% endfor %}
+
+                        <div class="col-12 mt-2"><h5 class="border-bottom pb-2">SEO</h5></div>
+                        <div class="col-12">
+                            <label class="form-label">SEO Title</label>
+                            <input type="text" name="seo_title" class="form-control" value="{{ settings.get('seo_title', '') }}">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">SEO Description</label>
+                            <textarea name="seo_description" class="form-control" rows="2">{{ settings.get('seo_description', '') }}</textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Keywords</label>
+                            <input type="text" name="seo_keywords" class="form-control" value="{{ settings.get('seo_keywords', '') }}" placeholder="school, jobs, careers">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg mt-4"><i class="bi bi-check-lg me-1"></i>Save &amp; Publish Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="admin-card mb-4">
+            <div class="admin-card-header"><h5>Live Preview</h5></div>
+            <div class="admin-card-body">
+                {% set logo = settings.get('site_logo', '') %}
+                {% if logo and logo.startswith('http') %}
+                <img src="{{ logo }}" alt="Logo" class="mb-3 rounded" style="max-height:80px">
+                {% elif logo %}
+                <img src="{{ url_for('static', filename=logo) }}" alt="Logo" class="mb-3 rounded" style="max-height:80px">
+                {% endif %}
+                <p class="mb-1"><strong>{{ settings.get('site_name', '') }}</strong></p>
+                <p class="text-secondary small mb-3">{{ settings.get('site_tagline', '') }}</p>
+                <p class="small mb-1"><i class="bi bi-telephone me-2"></i>{{ settings.get('contact_phone', '—') }}</p>
+                <p class="small mb-1"><i class="bi bi-envelope me-2"></i>{{ settings.get('contact_email', '—') }}</p>
+                <p class="small"><i class="bi bi-geo-alt me-2"></i>{{ settings.get('contact_address', '—') }}</p>
+            </div>
+        </div>
+        <div class="admin-card">
+            <div class="admin-card-header"><h5>Quick Links</h5></div>
+            <div class="admin-card-body d-grid gap-2">
+                <a href="{{ url_for('admin.media_library') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-collection me-1"></i>Media Library</a>
+                <a href="{{ url_for('admin.jobs_list') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-briefcase me-1"></i>Manage Jobs</a>
+                <a href="{{ url_for('main.home') }}" target="_blank" class="btn btn-outline-secondary btn-sm"><i class="bi bi-box-arrow-up-right me-1"></i>View Website</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

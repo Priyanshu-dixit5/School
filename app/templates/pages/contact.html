@@ -93,6 +93,11 @@
                                 {% for e in form.phone.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}
                             </div>
                             <div class="col-md-6">
+                                <label class="form-label">{{ form.subject.label }}</label>
+                                {{ form.subject(class="form-control" + (" is-invalid" if form.subject.errors else ""), placeholder="Subject of your message") }}
+                                {% for e in form.subject.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}
+                            </div>
+                            <div class="col-md-6">
                                 <label class="form-label">{{ form.query_type.label }}</label>
                                 {{ form.query_type(class="form-select" + (" is-invalid" if form.query_type.errors else "")) }}
                                 {% for e in form.query_type.errors %}<div class="invalid-feedback">{{ e }}</div>{% endfor %}

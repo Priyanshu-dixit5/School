@@ -1,0 +1,54 @@
+{% extends 'admin/base.html' %}
+{% block title %}Applications{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div><h2>Applications</h2><p class="text-secondary mb-0">Manage job applications</p></div>
+</div>
+
+<div class="admin-card mb-4">
+    <div class="admin-card-body">
+        <form method="GET" class="row g-3 align-items-end">
+            <div class="col-md-4"><input type="search" name="q" value="{{ search }}" class="form-control" placeholder="Search by name, email..."></div>
+            <div class="col-md-3">
+                <select name="status" class="form-select">
+                    <option value="">All Statuses</option>
+                    {% for s in ['pending','approved','rejected','shortlisted'] %}
+                    <option value="{{ s }}" {% if status == s %}selected{% endif %}>{{ s|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="sort" class="form-select">
+                    <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest First</option>
+                    <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>Oldest First</option>
+                    <option value="name" {% if sort == 'name' %}selected{% endif %}>By Name</option>
+                </select>
+            </div>
+            <div class="col-md-2"><button class="btn btn-outline-primary w-100">Filter</button></div>
+        </form>
+    </div>
+</div>
+
+<div class="admin-table" id="applicationsTable">
+    <table class="table table-hover mb-0">
+        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Job</th><th>Status</th><th>Applied</th><th>Actions</th></tr></thead>
+        <tbody>
+        {% for app in pagination.items %}
+        <tr data-app-id="{{ app.id }}">
+            <td><strong>{{ app.name }}</strong></td>
+            <td>{{ app.email }}</td>
+            <td>{{ app.phone or '—' }}</td>
+            <td>{{ app.job.title if app.job else '—' }}</td>
+            <td><span class="badge status-{{ app.status }}">{{ app.status|title }}</span></td>
+            <td class="text-secondary small">{{ app.applied_at.strftime('%b %d, %Y %H:%M') }}</td>
+            <td>
+                <a href="{{ url_for('admin.applications_detail', app_id=app.id) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center text-secondary py-5">No applications yet</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

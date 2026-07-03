@@ -1,0 +1,73 @@
+{% extends 'admin/base.html' %}
+{% block title %}Media Library{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h2>Media Library</h2>
+        <p class="text-secondary mb-0">All uploaded images and banners in one place — {{ media.total_images }} images, {{ media.total_banners }} banners</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('admin.images_list') }}" class="btn btn-primary"><i class="bi bi-upload me-1"></i>Upload Images</a>
+        <a href="{{ url_for('admin.banner_list') }}" class="btn btn-outline-primary"><i class="bi bi-image me-1"></i>Manage Banners</a>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    {% for folder, count in media.folder_counts.items() %}
+    <div class="col-6 col-md-3">
+        <div class="admin-stat-card text-center">
+            <h3>{{ count }}</h3>
+            <p>{{ folder|title }} Images</p>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="col-6 col-md-3">
+        <div class="admin-stat-card text-center">
+            <h3>{{ media.total_banners }}</h3>
+            <p>Banners</p>
+        </div>
+    </div>
+</div>
+
+{% if media.banners %}
+<div class="admin-card mb-4">
+    <div class="admin-card-header"><h5>Active Banners</h5></div>
+    <div class="admin-card-body">
+        <div class="row g-3">
+            {% for banner in media.banners %}
+            <div class="col-md-4">
+                <div class="border rounded overflow-hidden">
+                    <img src="{{ banner.image_url }}" alt="{{ banner.title }}" class="w-100" style="height:120px;object-fit:cover">
+                    <div class="p-2 small">
+                        <strong>{{ banner.title }}</strong>
+                        <span class="badge {% if banner.is_active %}bg-success{% else %}bg-secondary{% endif %} ms-1">{{ 'Active' if banner.is_active else 'Inactive' }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="admin-card">
+    <div class="admin-card-header"><h5>Recent Uploads</h5></div>
+    <div class="admin-card-body">
+        <div class="row g-3">
+            {% for img in media.images %}
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="admin-image-card">
+                    <img src="{{ img.url }}" alt="{{ img.title }}" loading="lazy">
+                    <div class="admin-image-overlay">
+                        <p class="small mb-0">{{ img.title }}</p>
+                        <p class="small opacity-75">{{ img.folder }}</p>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center text-secondary py-4">No images uploaded yet. <a href="{{ url_for('admin.images_list') }}">Upload now</a></div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

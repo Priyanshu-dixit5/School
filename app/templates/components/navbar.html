@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-animate" id="mainNavbar">
     <div class="container">
         <a class="navbar-brand nav-brand-animate" href="{{ url_for('main.home') }}">
-            <img src="{{ url_for('static', filename=site_logo) }}" alt="{{ school_name }} logo" class="brand-logo">
+            {% from 'macros.html' import site_logo_img %}
+            {{ site_logo_img(site_logo, school_name ~ ' logo', 'brand-logo') }}
             <span class="brand-text">{{ school_name }}</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
@@ -38,9 +39,10 @@
                         <li><a class="dropdown-item" href="{{ url_for('main.faq') }}"><i class="bi bi-question-circle me-2"></i>FAQ</a></li>
                     </ul>
                 </li>
+                <li class="nav-item nav-link-animate"><a class="nav-link" href="{{ url_for('main.careers') }}">Careers</a></li>
                 <li class="nav-item nav-link-animate"><a class="nav-link" href="{{ url_for('main.contact') }}">Contact</a></li>
                 <li class="nav-item ms-lg-2 nav-link-animate">
-                    <a class="btn btn-accent btn-sm nav-cta-btn" href="{{ admission_portal_url }}" target="_blank" rel="noopener">Apply Now</a>
+                    <a class="btn btn-apply-now btn-sm nav-cta-btn" href="{{ url_for('main.careers') }}">Apply Now</a>
                 </li>
             </ul>
         </div>

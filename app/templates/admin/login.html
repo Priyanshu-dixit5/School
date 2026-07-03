@@ -1,0 +1,36 @@
+{% extends 'admin/base.html' %}
+{% block title %}Login{% endblock %}
+{% block auth_content %}
+<div class="admin-login-page">
+    <div class="admin-login-card">
+        <div class="text-center mb-4">
+            <i class="bi bi-briefcase-fill fs-1 text-primary"></i>
+            <h3 class="mt-2">Admin Login</h3>
+            <p class="text-secondary">Job Portal Dashboard</p>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                <label class="form-label">{{ form.username.label }}</label>
+                {{ form.username(class="form-control", placeholder="Username") }}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">{{ form.password.label }}</label>
+                {{ form.password(class="form-control", placeholder="Password") }}
+            </div>
+            <div class="mb-3 form-check">
+                {{ form.remember(class="form-check-input") }}
+                <label class="form-check-label">{{ form.remember.label }}</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-lg">Sign In</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

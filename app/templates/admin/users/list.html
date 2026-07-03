@@ -1,0 +1,68 @@
+{% extends 'admin/base.html' %}
+{% block title %}Users{% endblock %}
+{% block content %}
+<div class="admin-header"><div><h2>User Management</h2></div></div>
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="admin-card">
+            <div class="admin-card-header"><h5>Add User</h5></div>
+            <div class="admin-card-body">
+                <form method="POST" action="{{ url_for('admin.users_create') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3"><input type="text" name="username" class="form-control" placeholder="Username" required></div>
+                    <div class="mb-3"><input type="email" name="email" class="form-control" placeholder="Email" required></div>
+                    <div class="mb-3"><input type="password" name="password" class="form-control" placeholder="Password" required></div>
+                    <div class="mb-3">
+                        <select name="role" class="form-select">
+                            <option value="editor">Editor</option>
+                            <option value="admin">Admin</option>
+                            <option value="super_admin">Super Admin</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Create User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="admin-table">
+            <table class="table table-hover mb-0">
+                <thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}{% if user.id == current_user.id %} <span class="badge bg-info">You</span>{% endif %}</td>
+                    <td>{{ user.email }}</td>
+                    <td><span class="badge bg-primary">{{ user.role|replace('_',' ')|title }}</span></td>
+                    <td>{% if user.is_active %}<span class="text-success">Active</span>{% else %}<span class="text-danger">Inactive</span>{% endif %}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#editUser{{ user.id }}"><i class="bi bi-pencil"></i></button>
+                    </td>
+                </tr>
+                <tr class="collapse" id="editUser{{ user.id }}">
+                    <td colspan="5">
+                        <form method="POST" action="{{ url_for('admin.users_edit', user_id=user.id) }}" class="p-3 bg-light rounded">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <div class="row g-2">
+                                <div class="col-md-3"><input type="email" name="email" class="form-control" value="{{ user.email }}"></div>
+                                <div class="col-md-2">
+                                    <select name="role" class="form-select">
+                                        {% for r in ['editor','admin','super_admin'] %}
+                                        <option value="{{ r }}" {% if user.role == r %}selected{% endif %}>{{ r|replace('_',' ')|title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-3"><input type="password" name="password" class="form-control" placeholder="New password"></div>
+                                <div class="col-md-2"><div class="form-check mt-2"><input type="checkbox" name="is_active" class="form-check-input" {% if user.is_active %}checked{% endif %}><label class="form-check-label">Active</label></div></div>
+                                <div class="col-md-2"><button class="btn btn-primary w-100">Save</button></div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

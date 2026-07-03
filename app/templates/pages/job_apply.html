@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import page_header %}
+{% block body_class %}inner-page{% endblock %}
+{% block title %}Apply — {{ job.title }} — {{ school_name }}{% endblock %}
+{% block content %}
+{{ page_header('Apply for ' + job.title, [{'label': 'Careers', 'url': url_for('main.careers')}, {'label': job.title, 'url': url_for('main.job_detail', slug=job.slug)}, {'label': 'Apply'}]) }}
+<section class="content-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <div class="content-card">
+                    <h3 class="mb-2">Application Form</h3>
+                    <p class="text-secondary mb-4">Applying for <strong>{{ job.title }}</strong>{% if job.company %} at {{ job.company.name }}{% endif %}</p>
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">{% for field, errors in form.errors.items() %}{% for e in errors %}<li>{{ e }}</li>{% endfor %}{% endfor %}</ul>
+                    </div>
+                    {% endif %}
+
+                    <form method="POST" enctype="multipart/form-data" id="applyForm" novalidate>
+                        {{ form.hidden_tag() }}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">{{ form.name.label }} *</label>
+                                {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else ""), placeholder="Your full name") }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">{{ form.email.label }} *</label>
+                                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""), placeholder="you@email.com") }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">{{ form.phone.label }}</label>
+                                {{ form.phone(class="form-control", placeholder="+91 XXXXX XXXXX") }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">{{ form.resume.label }} *</label>
+                                {{ form.resume(class="form-control" + (" is-invalid" if form.resume.errors else ""), accept=".pdf,.doc,.docx") }}
+                                <small class="text-secondary">PDF, DOC, or DOCX (max 10MB)</small>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">{{ form.cover_letter.label }}</label>
+                                {{ form.cover_letter(class="form-control", rows=5, placeholder="Tell us why you're a great fit...") }}
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-apply-now btn-lg" id="submitBtn">
+                                    <span class="btn-text"><i class="bi bi-send me-2"></i>Submit Application</span>
+                                    <span class="btn-loading d-none"><span class="spinner-border spinner-border-sm me-2"></span>Submitting...</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.getElementById('applyForm')?.addEventListener('submit', function() {
+    const btn = document.getElementById('submitBtn');
+    btn.querySelector('.btn-text').classList.add('d-none');
+    btn.querySelector('.btn-loading').classList.remove('d-none');
+    btn.disabled = true;
+});
+</script>
+{% endblock %}

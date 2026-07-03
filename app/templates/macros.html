@@ -18,3 +18,11 @@
     </div>
 </section>
 {% endmacro %}
+
+{% macro site_logo_img(logo, alt, class_name='') %}
+{% if logo and logo.startswith('http') %}
+<img src="{{ logo }}" alt="{{ alt }}" class="{{ class_name }}">
+{% else %}
+<img src="{{ url_for('static', filename=logo or 'images/logo.jpeg') }}" alt="{{ alt }}" class="{{ class_name }}">
+{% endif %}
+{% endmacro %}

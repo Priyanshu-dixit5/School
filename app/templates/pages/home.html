@@ -26,12 +26,14 @@
             <h1>{{ school_tagline }}</h1>
             <p>Nurturing curious minds with quality CBSE education, values, and holistic development at {{ school_name }}.</p>
             <div class="hero-buttons">
-                <a href="{{ admission_portal_url }}" target="_blank" rel="noopener" class="btn btn-accent btn-lg">Apply Now</a>
-                <a href="{{ url_for('main.gallery') }}" class="btn btn-outline-light-custom btn-lg">Explore Campus</a>
+                <a href="{{ url_for('main.careers') }}" class="btn btn-apply-now btn-lg">Apply Now</a>
             </div>
         </div>
     </div>
-    <div class="hero-scroll"><i class="bi bi-chevron-down fs-4"></i></div>
+    <div class="hero-scroll-indicator">
+        <div class="hero-scroll"><i class="bi bi-chevron-down fs-4"></i></div>
+        <a href="{{ url_for('main.gallery') }}" class="btn btn-explore btn-lg">Explore Campus</a>
+    </div>
 </section>
 
 <!-- Statistics -->
@@ -317,6 +319,36 @@
         </div>
     </div>
 </section>
+
+<!-- Featured Jobs -->
+{% if featured_jobs %}
+<section class="section" id="featured-jobs">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-label">Careers</span>
+            <h2>Open Positions</h2>
+            <p>Join our team — explore the latest job and internship opportunities.</p>
+        </div>
+        <div class="row g-4">
+            {% for job in featured_jobs %}
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
+                <div class="job-card content-card h-100">
+                    <div class="job-card-body">
+                        <span class="badge bg-primary mb-2">{{ job.job_type|replace('-',' ')|title }}</span>
+                        <h6>{{ job.title }}</h6>
+                        {% if job.location %}<p class="text-secondary small mb-2"><i class="bi bi-geo-alt"></i> {{ job.location }}</p>{% endif %}
+                        <a href="{{ url_for('main.job_apply', slug=job.slug) }}" class="btn btn-apply-now btn-sm w-100 mt-2">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{{ url_for('main.careers') }}" class="btn btn-primary-custom">View All Jobs</a>
+        </div>
+    </div>
+</section>
+{% endif %}
 
 <!-- Admission CTA -->
 <section class="section pb-0">

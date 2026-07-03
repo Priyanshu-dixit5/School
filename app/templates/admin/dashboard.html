@@ -1,0 +1,219 @@
+{% extends 'admin/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h2>Dashboard Overview</h2>
+        <p class="text-secondary mb-0">Welcome back, {{ current_user.username }}</p>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-6 col-xl-3">
+        <div class="admin-stat-card">
+            <div class="stat-icon bg-primary-subtle text-primary"><i class="bi bi-briefcase"></i></div>
+            <h3 id="statTotalJobs">{{ stats.total_jobs }}</h3>
+            <p>Total Jobs</p>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="admin-stat-card">
+            <div class="stat-icon bg-success-subtle text-success"><i class="bi bi-check-circle"></i></div>
+            <h3 id="statActiveJobs">{{ stats.active_jobs }}</h3>
+            <p>Active Jobs</p>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="admin-stat-card">
+            <div class="stat-icon bg-secondary-subtle text-secondary"><i class="bi bi-x-circle"></i></div>
+            <h3>{{ stats.closed_jobs }}</h3>
+            <p>Closed Jobs</p>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="admin-stat-card">
+            <div class="stat-icon bg-info-subtle text-info"><i class="bi bi-building"></i></div>
+            <h3>{{ stats.total_companies }}</h3>
+            <p>Total Companies</p>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="admin-stat-card">
+            <div class="stat-icon bg-warning-subtle text-warning"><i class="bi bi-calendar-day"></i></div>
+            <h3 id="statAppsToday">{{ stats.applications_today }}</h3>
+            <p>Applications Today</p>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="admin-stat-card">
+            <div class="stat-icon bg-primary-subtle text-primary"><i class="bi bi-calendar-week"></i></div>
+            <h3>{{ stats.applications_week }}</h3>
+            <p>This Week</p>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="admin-stat-card">
+            <div class="stat-icon bg-success-subtle text-success"><i class="bi bi-calendar-month"></i></div>
+            <h3>{{ stats.applications_month }}</h3>
+            <p>This Month</p>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="admin-stat-card">
+            <div class="stat-icon bg-danger-subtle text-danger"><i class="bi bi-envelope"></i></div>
+            <h3 id="statUnreadQueries">{{ stats.unread_queries }}</h3>
+            <p>Unread Queries</p>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="admin-stat-card">
+            <div class="stat-icon bg-primary-subtle text-primary"><i class="bi bi-images"></i></div>
+            <h3>{{ stats.total_images }}</h3>
+            <p>Uploaded Images</p>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="admin-stat-card">
+            <div class="stat-icon bg-info-subtle text-info"><i class="bi bi-eye"></i></div>
+            <h3>{{ stats.total_job_views }}</h3>
+            <p>Total Job Views</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-4">
+        <div class="admin-card h-100">
+            <div class="admin-card-header d-flex justify-content-between align-items-center">
+                <h5>Site Information</h5>
+                <a href="{{ url_for('admin.settings') }}" class="btn btn-sm btn-outline-primary">Edit</a>
+            </div>
+            <div class="admin-card-body">
+                <p class="mb-1"><strong>{{ site_summary.settings.get('site_name', school_name) }}</strong></p>
+                <p class="text-secondary small mb-3">{{ site_summary.settings.get('site_tagline', '') }}</p>
+                <p class="small mb-1"><i class="bi bi-telephone me-2"></i>{{ site_summary.settings.get('contact_phone', '—') }}</p>
+                <p class="small mb-1"><i class="bi bi-envelope me-2"></i>{{ site_summary.settings.get('contact_email', '—') }}</p>
+                <p class="small"><i class="bi bi-geo-alt me-2"></i>{{ site_summary.settings.get('contact_address', '—') }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="admin-card h-100">
+            <div class="admin-card-header d-flex justify-content-between align-items-center">
+                <h5>Top Viewed Jobs</h5>
+                <a href="{{ url_for('admin.jobs_list') }}" class="btn btn-sm btn-outline-primary">All Jobs</a>
+            </div>
+            <div class="admin-card-body p-0">
+                <table class="table table-sm mb-0">
+                    <tbody>
+                    {% for job in top_jobs %}
+                    <tr>
+                        <td><a href="{{ url_for('admin.jobs_edit', job_id=job.id) }}">{{ job.title }}</a></td>
+                        <td class="text-end text-secondary"><i class="bi bi-eye"></i> {{ job.view_count or 0 }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td class="text-secondary text-center py-3">No jobs yet</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="admin-card h-100">
+            <div class="admin-card-header d-flex justify-content-between align-items-center">
+                <h5>Recent Uploads</h5>
+                <a href="{{ url_for('admin.media_library') }}" class="btn btn-sm btn-outline-primary">Media Library</a>
+            </div>
+            <div class="admin-card-body">
+                <div class="d-flex flex-wrap gap-2">
+                    {% for img in media.images[:6] %}
+                    <img src="{{ img.url }}" alt="{{ img.title }}" class="rounded" style="width:56px;height:56px;object-fit:cover" title="{{ img.title }}">
+                    {% else %}
+                    <p class="text-secondary small mb-0">No uploads yet</p>
+                    {% endfor %}
+                </div>
+                <p class="small text-secondary mt-2 mb-0">{{ media.total_images }} images · {{ media.total_banners }} banners</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-8">
+        <div class="admin-card">
+            <div class="admin-card-header"><h5>Application Growth</h5></div>
+            <div class="admin-card-body"><canvas id="appGrowthChart" height="120"></canvas></div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="admin-card">
+            <div class="admin-card-header"><h5>Monthly Jobs</h5></div>
+            <div class="admin-card-body"><canvas id="jobsChart" height="200"></canvas></div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="admin-card">
+            <div class="admin-card-header d-flex justify-content-between align-items-center">
+                <h5>Recent Applications</h5>
+                <a href="{{ url_for('admin.applications_list') }}" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="admin-card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="recentAppsTable">
+                        <thead><tr><th>Name</th><th>Job</th><th>Status</th><th>Time</th></tr></thead>
+                        <tbody>
+                        {% for app in recent_apps %}
+                        <tr>
+                            <td><a href="{{ url_for('admin.applications_detail', app_id=app.id) }}">{{ app.name }}</a></td>
+                            <td>{{ app.job.title if app.job else '—' }}</td>
+                            <td><span class="badge status-{{ app.status }}">{{ app.status|title }}</span></td>
+                            <td class="text-secondary small">{{ app.applied_at.strftime('%b %d, %H:%M') }}</td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="4" class="text-center text-secondary py-4">No applications yet</td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="admin-card">
+            <div class="admin-card-header d-flex justify-content-between align-items-center">
+                <h5>Recent Queries</h5>
+                <a href="{{ url_for('admin.queries_list') }}" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="admin-card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="recentQueriesTable">
+                        <thead><tr><th>Name</th><th>Subject</th><th>Status</th><th>Date</th></tr></thead>
+                        <tbody>
+                        {% for q in recent_queries %}
+                        <tr>
+                            <td><a href="{{ url_for('admin.queries_detail', query_id=q.id) }}">{{ q.name }}</a></td>
+                            <td>{{ q.subject or q.query_type|title }}</td>
+                            <td><span class="badge status-{{ q.status }}">{{ q.status|title }}</span></td>
+                            <td class="text-secondary small">{{ q.created_at.strftime('%b %d') }}</td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="4" class="text-center text-secondary py-4">No queries yet</td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+window.dashboardCharts = {{ charts | tojson }};
+</script>
+{% endblock %}

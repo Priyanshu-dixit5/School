@@ -1,0 +1,32 @@
+{% extends 'admin/base.html' %}
+{% block title %}Companies{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div><h2>Companies</h2></div>
+    <a href="{{ url_for('admin.companies_create') }}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Add Company</a>
+</div>
+
+<div class="admin-card mb-4">
+    <div class="admin-card-body">
+        <form method="GET"><input type="search" name="q" value="{{ search }}" class="form-control" placeholder="Search companies..."></form>
+    </div>
+</div>
+
+<div class="row g-4">
+    {% for co in companies %}
+    <div class="col-md-6 col-lg-4">
+        <div class="admin-card h-100">
+            <div class="admin-card-body text-center">
+                {% if co.logo_url %}<img src="{{ co.logo_url }}" class="rounded mb-3" style="max-height:60px">{% else %}<div class="bg-light rounded p-3 mb-3"><i class="bi bi-building fs-2 text-secondary"></i></div>{% endif %}
+                <h5>{{ co.name }}</h5>
+                <p class="text-secondary small">{{ co.location or '—' }}</p>
+                <p class="small">{{ co.jobs.filter_by(deleted_at=None).count() }} jobs</p>
+                <a href="{{ url_for('admin.companies_edit', company_id=co.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12 text-center text-secondary py-5">No companies yet</div>
+    {% endfor %}
+</div>
+{% endblock %}

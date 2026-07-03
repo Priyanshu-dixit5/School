@@ -1,0 +1,87 @@
+{% extends 'admin/base.html' %}
+{% block title %}Image Library{% endblock %}
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h2>Image Library</h2>
+        <p class="text-secondary mb-0">{{ images|length }} images{% if folder %} in <strong>{{ folder }}</strong>{% endif %}</p>
+    </div>
+    <a href="{{ url_for('admin.media_library') }}" class="btn btn-outline-secondary"><i class="bi bi-collection me-1"></i>Media Overview</a>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-4">
+        <div class="admin-card">
+            <div class="admin-card-header"><h5>Upload Image</h5></div>
+            <div class="admin-card-body">
+                <form method="POST" action="{{ url_for('admin.images_upload') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3"><label class="form-label">Title</label><input type="text" name="title" class="form-control" placeholder="Image title"></div>
+                    <div class="mb-3">
+                        <label class="form-label">Folder</label>
+                        <select name="folder" class="form-select">
+                            {% for f in ['general','jobs','companies','banners','settings','resumes'] %}
+                            <option value="{{ f }}" {% if folder == f %}selected{% endif %}>{{ f|title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3"><label class="form-label">Alt Text</label><input type="text" name="alt_text" class="form-control" placeholder="Description for accessibility"></div>
+                    <div class="mb-3"><label class="form-label">Image File</label><input type="file" name="image" class="form-control" accept="image/*" required></div>
+                    <button type="submit" class="btn btn-primary w-100"><i class="bi bi-upload me-1"></i>Upload</button>
+                </form>
+            </div>
+        </div>
+        {% if folders %}
+        <div class="admin-card mt-3">
+            <div class="admin-card-header"><h5>Folders</h5></div>
+            <div class="admin-card-body p-0">
+                <div class="list-group list-group-flush">
+                    <a href="{{ url_for('admin.images_list') }}" class="list-group-item list-group-item-action {% if not folder %}active{% endif %}">All Images</a>
+                    {% for f in folders %}
+                    <a href="?folder={{ f }}" class="list-group-item list-group-item-action {% if folder == f %}active{% endif %}">{{ f|title }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-8">
+        <div class="row g-3" id="imageGrid">
+            {% for img in images %}
+            <div class="col-6 col-md-4">
+                <div class="admin-image-card">
+                    <img src="{{ img.url }}" alt="{{ img.alt_text or img.title }}" loading="lazy" data-bs-toggle="modal" data-bs-target="#imgModal{{ img.id }}" style="cursor:pointer">
+                    <div class="admin-image-overlay">
+                        <p class="small mb-1 fw-bold">{{ img.title }}</p>
+                        <p class="small mb-2 opacity-75">{{ img.folder }} · {{ img.created_at.strftime('%b %d, %Y') }}</p>
+                        <a href="{{ img.url }}" target="_blank" class="btn btn-sm btn-light me-1"><i class="bi bi-eye"></i></a>
+                        <form method="POST" action="{{ url_for('admin.images_delete', image_id=img.id) }}" class="d-inline" onsubmit="return confirm('Delete this image?')">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal fade" id="imgModal{{ img.id }}" tabindex="-1">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">{{ img.title }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img src="{{ img.url }}" alt="{{ img.title }}" class="img-fluid rounded mb-3">
+                                <p class="text-secondary small mb-1">Folder: {{ img.folder }} · Uploaded: {{ img.created_at.strftime('%B %d, %Y at %H:%M') }}</p>
+                                {% if img.width %}<p class="text-secondary small">{{ img.width }}×{{ img.height }}px{% if img.file_size %} · {{ (img.file_size / 1024)|round(1) }} KB{% endif %}</p>{% endif %}
+                                <input type="text" class="form-control form-control-sm mt-2" value="{{ img.url }}" readonly onclick="this.select()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center text-secondary py-5">No images uploaded yet.</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

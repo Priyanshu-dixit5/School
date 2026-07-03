@@ -1,11 +1,23 @@
 import os
+import sys
 from dotenv import load_dotenv
 
 load_dotenv()
 
 from app import create_app
+from app.extensions import socketio
 
 app = create_app(os.environ.get('FLASK_ENV', 'development'))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    # On Windows, eventlet + debug reloader causes port-in-use errors (WinError 10048).
+    use_reloader = app.debug and sys.platform != 'win32'
+    socketio.run(
+        app,
+        host='0.0.0.0',
+        port=port,
+        debug=app.debug,
+        use_reloader=use_reloader,
+        allow_unsafe_werkzeug=True,
+    )

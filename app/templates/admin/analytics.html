@@ -1,0 +1,16 @@
+{% extends 'admin/base.html' %}
+{% block title %}Analytics{% endblock %}
+{% block content %}
+<div class="admin-header"><div><h2>Analytics</h2></div></div>
+<div class="row g-4 mb-4">
+    <div class="col-md-3"><div class="admin-stat-card"><h3>{{ stats.total_applications }}</h3><p>Total Applications</p></div></div>
+    <div class="col-md-3"><div class="admin-stat-card"><h3>{{ stats.active_jobs }}</h3><p>Active Jobs</p></div></div>
+    <div class="col-md-3"><div class="admin-stat-card"><h3>{{ stats.unread_queries }}</h3><p>Unread Queries</p></div></div>
+    <div class="col-md-3"><div class="admin-stat-card"><h3>{{ stats.pending_applications }}</h3><p>Pending Review</p></div></div>
+</div>
+<div class="row g-4">
+    <div class="col-lg-6"><div class="admin-card"><div class="admin-card-header"><h5>Application Growth</h5></div><div class="admin-card-body"><canvas id="analyticsAppChart"></canvas></div></div></div>
+    <div class="col-lg-6"><div class="admin-card"><div class="admin-card-header"><h5>Monthly Jobs Posted</h5></div><div class="admin-card-body"><canvas id="analyticsJobsChart"></canvas></div></div></div>
+</div>
+{% endblock %}
+{% block extra_js %}<script>window.dashboardCharts = {{ charts | tojson }};</script>{% endblock %}

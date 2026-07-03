@@ -11,6 +11,7 @@ class ContactForm(FlaskForm):
     name = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=100)])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(max=120)])
     phone = StringField('Phone', validators=[Optional(), Length(max=15)])
+    subject = StringField('Subject', validators=[Optional(), Length(max=200)])
     query_type = SelectField('Inquiry Type', choices=[
         ('general', 'General Inquiry'),
         ('admission', 'Admission Information'),
@@ -141,3 +142,15 @@ class AICareerGuidanceForm(FlaskForm):
     stream = SelectField('Stream', choices=[
         ('science', 'Science'), ('commerce', 'Commerce'), ('arts', 'Arts'),
     ], validators=[DataRequired()])
+
+
+class JobApplicationForm(FlaskForm):
+    name = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=100)])
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(max=120)])
+    phone = StringField('Phone', validators=[Optional(), Length(max=15)])
+    cover_letter = TextAreaField('Cover Letter', validators=[Optional(), Length(max=3000)])
+    resume = FileField('Resume', validators=[DataRequired()])
+
+    def validate_phone(self, field):
+        if field.data and not validate_phone(field.data):
+            raise ValidationError('Please enter a valid phone number.')

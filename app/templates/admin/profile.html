@@ -1,0 +1,22 @@
+{% extends 'admin/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="admin-header"><div><h2>My Profile</h2></div></div>
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="admin-card">
+            <div class="admin-card-body">
+                <p><strong>Username:</strong> {{ current_user.username }}</p>
+                <p><strong>Role:</strong> {{ current_user.role|replace('_',' ')|title }}</p>
+                <hr>
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3"><label class="form-label">Email</label><input type="email" name="email" class="form-control" value="{{ current_user.email }}"></div>
+                    <div class="mb-3"><label class="form-label">New Password</label><input type="password" name="password" class="form-control" placeholder="Leave blank to keep current"></div>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
